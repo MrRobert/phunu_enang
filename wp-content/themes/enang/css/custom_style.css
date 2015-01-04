@@ -1,4 +1,5 @@
 /*Customize css */
+html{margin-top: 0 !important;}
 body {
 background-color: #f9f9f9;
 font-family: 'Open Sans',sans-serif;
