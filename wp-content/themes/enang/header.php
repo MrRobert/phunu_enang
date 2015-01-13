@@ -47,15 +47,16 @@
 						<li class="food">
 							<a href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/me-va-be"><span class="nav_point"></span>Mẹ và bé</a>
 						</li>
+                        <li class="travel hidden-sm">
+							<a href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/giai-tri"><span class="nav_point"></span>Giải trí</a>
+						</li>
 						<li class="fashion">
 							<a href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/kinh-nghiem-hay"><span class="nav_point"></span>Kinh nghiệm hay</a>
 						</li>
 						<li class="culture">
 							<a href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/nha-cua"><span class="nav_point"></span>Nhà cửa</a>
 						</li>
-						<li class="travel hidden-sm">
-							<a href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/thu-gian"><span class="nav_point"></span>Thư giãn</a>
-						</li>
+						
 						<li class="event hidden-sm">
 							<a href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/mua-sam"><span class="nav_point"></span>Mua sắm</a>
 						</li>

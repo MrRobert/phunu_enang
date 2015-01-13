@@ -90,25 +90,25 @@ function sw_get_current_weekday() {
     $weekday = strtolower($weekday);
     switch($weekday) {
         case 'monday':
-            $weekday = 'Th? hai';
+            $weekday = 'Thứ hai';
             break;
         case 'tuesday':
-            $weekday = 'Th? ba';
+            $weekday = 'Thứ ba';
             break;
         case 'wednesday':
-            $weekday = 'Th? tu';
+            $weekday = 'Thứ tư';
             break;
         case 'thursday':
-            $weekday = 'Th? nam';
+            $weekday = 'Thứ năm';
             break;
         case 'friday':
-            $weekday = 'Th? s�u';
+            $weekday = 'Thứ sáu';
             break;
         case 'saturday':
-            $weekday = 'Th? b?y';
+            $weekday = 'Thứ bảy';
             break;
         default:
-            $weekday = 'Ch? nh?t';
+            $weekday = 'Chủ nhật';
             break;
     }
     return $weekday.', '.date('d/m/Y | H:i');
@@ -137,3 +137,344 @@ function setPostViews($postID) {
     }
 }
 
+
+//get first new posts of each category before process ajax scroll
+function get_cate_new_first_posts(){
+   if(isset($_POST['cate_id'])){
+        $cat_ID = $_POST['cate_id'];
+   }
+   else{
+        $cat_ID = get_query_var('cat');
+   }
+   $category = get_category($cat_ID);
+   $current_date = $_POST['current_date'];
+    
+    $args = array(
+        'cat' => $cat_ID,
+        'date_query' => array(
+             array(
+                'column' => 'post_date_gmt',
+    			'before' => $current_date,
+    		 )
+         ),
+        'posts_per_page'      => 3,
+        'post__not_in'        =>$postID_exclude,
+        'orderby' => 'date',
+        'order'   => 'DESC',
+        
+    );
+    //var_dump($args);
+    $the_query = new WP_Query($args);
+    if ( $the_query->have_posts() ) {
+        while ( $the_query->have_posts() ) {
+              $the_query->the_post(); 
+              $para_print_post = array(
+                    'id'            => get_the_ID(),
+                    'title'         => get_the_title(),
+                    'link'      => esc_url(get_permalink()),
+                    'date'        =>get_the_date('d/m/Y  H:i'),
+                    'except'      => get_the_excerpt(),
+                    'image_link'      => get_bg_image(get_the_ID())
+                );
+                $lastDate = get_the_date('Y-m-d h:i:s');
+               print_post($para_print_post,$category->slug);
+                
+        }
+        echo '<input type="hidden" class="lastpost_date" value="'.$lastDate.'">';
+    }
+    else{
+        echo '<div id="no_news" class="pager pager-padding" style="background-color: #fff;"> 
+				    <a class="btn-block btn-md btn"><span>Không còn tin để hiển thị</span></a>
+                </div>';
+    }                       
+    
+}
+//get first new posts of each home middle category before process ajax scroll
+function home_get_first_cate_new_posts()
+{
+    if(isset($_POST['current_date'])){
+        $current_date = $_POST['current_date'];
+   }
+   else{
+        $current_date = date('Y-m-d H:i');
+   }
+   
+   if(isset($_POST['cate_slug']))
+   {
+        $cate_slug = $_POST['cate_slug'];
+   }
+   else
+   {
+        $cate_slug = 'doc-bao'; //default active is doc-bao
+   }
+  
+    
+    $args = array(
+        'category_name' => $cate_slug,
+        'date_query' => array(
+             array(
+                'column' => 'post_date_gmt',
+    			'before' => $current_date,
+    		 )
+         ),
+        'posts_per_page'      => 3,
+        'post__not_in'        =>$postID_exclude,
+        'orderby' => 'date',
+        'order'   => 'DESC',
+        
+    );
+    //var_dump($args);
+    $the_query = new WP_Query($args);
+    if ( $the_query->have_posts() ) {
+        while ( $the_query->have_posts() ) {
+              $the_query->the_post(); 
+              $para_print_post = array(
+                    'id'            => get_the_ID(),
+                    'title'         => get_the_title(),
+                    'link'      => esc_url(get_permalink()),
+                    'date'        =>get_the_date('d/m/Y  H:i'),
+                    'except'      => get_the_excerpt(),
+                    'image_link'      => get_bg_image(get_the_ID())
+                );
+                $lastDate = get_the_date('Y-m-d h:i:s');
+               print_post($para_print_post,$cate_slug);
+                
+        }
+        echo '<input type="hidden" class="lastpost_date" value="'.$lastDate.'">';
+    }
+    else{
+        echo '<div id="no_news" class="pager pager-padding" style="background-color: #fff;"> 
+				    <a class="btn-block btn-md btn"><span>Không còn tin để hiển thị</span></a>
+                </div>';
+    }                       
+   
+}
+// ajax process
+add_action('init', 'dvd_enqueue_script');
+function dvd_enqueue_script(){
+    wp_register_script('ajax_js', get_template_directory_uri() . '/js/ajax.js', array('jquery'), null, false);
+    wp_localize_script('ajax_js', 'AJAX', array('url' => admin_url('admin-ajax.php')));
+    wp_enqueue_script('ajax_js');
+}
+//register ajax action for category page
+add_action('wp_ajax_get_cate_new_posts', 'get_cate_new_posts');
+add_action('wp_ajax_nopriv_get_cate_new_posts', 'get_cate_new_posts');
+//register ajax action for home page
+add_action('wp_ajax_home_get_cate_new_posts', 'home_get_cate_new_posts');
+add_action('wp_ajax_nopriv_home_get_cate_new_posts', 'home_get_cate_new_posts');
+//get new post of each category by ajax
+function get_cate_new_posts(){
+   if(isset($_POST['cate_id'])){
+        $cat_ID = $_POST['cate_id'];
+   }
+   else{
+        $cat_ID = get_query_var('cat');
+   }
+   $category = get_category($cat_ID);
+   $current_date = $_POST['current_date'];
+    
+    $args = array(
+        'cat' => $cat_ID,
+        'date_query' => array(
+             array(
+                'column' => 'post_date_gmt',
+    			'before' => $current_date,
+    		 )
+         ),
+        'posts_per_page'      => 3,
+        'post__not_in'        =>$postID_exclude,
+        'orderby' => 'date',
+        'order'   => 'DESC',
+        
+    );
+    //var_dump($args);
+    $the_query = new WP_Query($args);
+    if ( $the_query->have_posts() ) {
+        while ( $the_query->have_posts() ) {
+              $the_query->the_post(); 
+              $para_print_post = array(
+                    'id'            => get_the_ID(),
+                    'title'         => get_the_title(),
+                    'link'      => esc_url(get_permalink()),
+                    'date'        =>get_the_date('d/m/Y  H:i'),
+                    'except'      => get_the_excerpt(),
+                    'image_link'      => get_bg_image(get_the_ID())
+                );
+                $lastDate = get_the_date('Y-m-d h:i:s');
+               print_post($para_print_post,$category->slug);
+                
+        }
+        echo '<input type="hidden" class="lastpost_date" value="'.$lastDate.'">';
+    }
+    else{
+        echo '<div id="no_news" class="pager pager-padding" style="background-color: #fff;"> 
+				    <a class="btn-block btn-md btn"><span>Không còn tin để hiển thị</span></a>
+                </div>';
+    }                       
+    
+    die();
+}
+
+function home_get_cate_new_posts()
+{
+    if(isset($_POST['current_date'])){
+        $current_date = $_POST['current_date'];
+   }
+   else{
+        $current_date = date('Y-m-d H:i');
+   }
+   
+   if(isset($_POST['cate_slug']))
+   {
+        $cate_slug = $_POST['cate_slug'];
+   }
+   else
+   {
+        $cate_slug = 'doc-bao'; //default active is doc-bao
+   }
+  
+    
+    $args = array(
+        'category_name' => $cate_slug,
+        'date_query' => array(
+             array(
+                'column' => 'post_date_gmt',
+    			'before' => $current_date,
+    		 )
+         ),
+        'posts_per_page'      => 3,
+        'post__not_in'        =>$postID_exclude,
+        'orderby' => 'date',
+        'order'   => 'DESC',
+        
+    );
+    //var_dump($args);
+    $the_query = new WP_Query($args);
+    if ( $the_query->have_posts() ) {
+        while ( $the_query->have_posts() ) {
+              $the_query->the_post(); 
+              $para_print_post = array(
+                    'id'            => get_the_ID(),
+                    'title'         => get_the_title(),
+                    'link'      => esc_url(get_permalink()),
+                    'date'        =>get_the_date('d/m/Y  H:i'),
+                    'except'      => get_the_excerpt(),
+                    'image_link'      => get_bg_image(get_the_ID())
+                );
+                $lastDate = get_the_date('Y-m-d h:i:s');
+               print_post($para_print_post,$cate_slug);
+                
+        }
+        echo '<input type="hidden" class="lastpost_date" value="'.$lastDate.'">';
+    }
+    else{
+        echo '<div id="no_news" class="pager pager-padding" style="background-color: #fff;"> 
+				    <a class="btn-block btn-md btn"><span>Không còn tin để hiển thị</span></a>
+                </div>';
+    }                       
+    
+    die();
+}
+//print article
+function print_post($para_print_post, $cate_slug){
+    
+    $output .= '<article class="newsCenter" id="post-'.$para_print_post['id'].'" style="border-top: 2px solid '.get_color($cate_slug).';">';
+    $output .=     '<div class="autNewsCt row">';
+    $output .=         '<div class="top-box-article"> ';
+    $output .=              '<span class="ctnAutCt col-md-10 col-sm-10 col-xs-9 col-lg-5">';
+    $output .=                  '<h4>';
+    $output .=                      '<a href="'.$para_print_post['link'].'">'.$para_print_post['title'].'</a>';
+    $output .=                  '</h4>';
+    $output .=              '</span>';
+    $output .=              '<a class="date-post" href="'.$para_print_post['link'].'">'.$para_print_post['date'].'</a>';
+    $output .=              '<div class="icon-list-btn col-lg-4">';
+    $output .=                  '<ul>';
+    $output .=                      '<li>';
+    $output .=                          '<span title="Cảm ơn"><i class="fa fa-heart"></i></span>';
+    $output .=                          '<br/>';
+    $output .=                          '<span class="value-btn">1</span>';
+    $output .=                      '</li>';
+    $output .=                      '<li>';
+    $output .=                          '<a title="Chia sẻ" class="btn-shareface" data-gtmname="chia-se" rel="nofollow" target="_blank" href="#">';
+    $output .=                              '<span><i class="fa fa-share-alt"></i></span>';
+    $output .=                              '<br/>';
+    $output .=                              '<span class="value-btn">29</span>';
+    $output .=                          '</a>';
+    $output .=                      '</li>';
+    $output .=                      '<li>';
+    $output .=                          '<span title="Bình luận" ><i class="fa fa-comments"></i></span>';
+    $output .=                          '<br/>';
+    $output .=                          '<span class="value-btn">0</span>';
+    $output .=                      '</li>';
+    $output .=                  '</ul>';
+    $output .=              '</div>';
+    $output .=          '</div>';
+    $output .=          '<div class="bottom-box-article">';
+    $output .=          '<a class="link-post-content" href="'.$para_print_post['link'].'">';
+    $output .=              '<p>'.$para_print_post['except'].'</p>';
+    $output .=          '</a>';
+    $output .=          '<div class="imgArtCt">';
+    $output .=              '<em>';
+    $output .=                  '<a href="'.$para_print_post['link'].'"><img src="'.$para_print_post['image_link'].'" alt="'.$para_print_post['title'].'"></a>';
+    $output .=              '</em>';
+    $output .=          '</div>';
+    $output .=          '</div>';
+    $output .=     '</div>';
+    $output .= '</article>';
+    
+    echo $output;
+}
+//get different color for different category
+function get_color($cate_name){
+    switch($cate_name){
+        case 'doc-bao':
+            $color = '#eb6f70';
+            break;
+        case 'tam-su':
+            $color = '#40a880';
+            break;
+        case 'lam-dep':
+            $color = '#ff8400';
+            break;
+        case 'me-va-be':
+            $color = '#309ac1';
+            break;
+        case 'kinh-nghiem-hay':
+            $color = '#955694';
+            break;
+        case 'nha-cua':
+            $color = '#309ac1';
+            break;
+        case 'giai-tri':
+            $color = '#e347a7';
+            break;
+        default:
+            $color = '#eb6f70';
+            break;
+            
+    }
+    
+    return $color;
+}									
+											
+												
+												 
+													 
+														
+													  
+												
+												 
+												
+													
+													
+												
+											
+											
+												
+													
+														
+												
+												
+											
+									
+									
