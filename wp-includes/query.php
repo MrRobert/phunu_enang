@@ -3391,7 +3391,7 @@ class WP_Query {
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
 
 		$this->request = $old_request = "SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
-
+            
 		if ( !$q['suppress_filters'] ) {
 			/**
 			 * Filter the completed SQL query before sending.
