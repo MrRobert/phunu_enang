@@ -9,6 +9,7 @@
  **/
 ?>
 <?php get_header();?>
+<?php  $cat_ID = get_query_var('cat'); $category = get_category( $cat_ID );  ?>
 
 <div id="main">
 		<!--div id="mainTop">
@@ -21,53 +22,89 @@
 				<div id="colLeftNews" class="hidden-xs col-sm-3 hidden-md col-lg-2">
 					<div class="news-list">
 						<ul>
-							<li> 
-                    			<a href="#" style="background:url(<?php echo esc_url( get_template_directory_uri() ); ?>/images/first_news_img.jpg) no-repeat;width: 100%; height: 92px; display: block; margin-bottom: 8px; background-size: cover;" class="img"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/first_news_img.jpg" alt="Bật mí bí duyết dưỡng da mùa lễ hội cho quý cô trang điểm nhiều " style="display: none;"></a>
-                    			<a href="#"> Bật mí bí duyết dưỡng da mùa lễ hội cho quý cô trang điểm nhiều </a> 
-                    		</li>
-							<li> <a href="#"> Soi tủ đồ “hàng hiệu” bình dân của hoàng tử bé nước Anh</a> </li>
-                            <li> <a href="#"> Tính cách nào, chọn nước hoa nấy</a> </li>
-                            <li> <a href="#"> Tạo 8 kiểu đầy cảm hứng với tóc bob dài</a> </li>
-                            <li> <a href="#"> Mực xào ngũ sắc ngọt giòn cho bữa tối</a> </li>
-                            <li> <a href="#"> Cách làm bánh mỳ xoắn ốc thật thơm ngon, xốp mềm</a> </li>
-							<li> <a href="#"> Cách làm bánh mỳ xoắn ốc thật thơm ngon, xốp mềm</a> </li>
-                             								
+                            <?php $i = 0;
+                                $postID_exclude = array(); 
+                                    $args = array(
+                                        'cat'            => $cat_ID,
+                                    	'posts_per_page' => 7
+                                        );
+                                        
+                                $the_query = new WP_Query($args);
+                                // The Loop
+                                if ( $the_query->have_posts() ) {
+                                	
+                                	while ( $the_query->have_posts() ) {
+                                		$the_query->the_post();
+                                        array_push($postID_exclude,get_the_ID()); 
+                                        if($i <= 0){ 
+                                        ?>
+                                            <li> 
+                                    			<a href="<?php esc_url(the_permalink())?>" style="background:url(<?php echo get_bg_image(get_the_ID()); ?>) no-repeat;width: 100%; height: 92px; display: block; margin-bottom: 8px; background-size: cover;" class="img"><img src="<?php echo get_bg_image(get_the_ID()); ?>" alt="<?php the_title();?>" style="display: none;"></a>
+                                    			<a href="<?php esc_url(the_permalink())?>"> <?php the_title();?></a> 
+                                    		</li>
+                                        <?php } else {?>
+                                            <li> <a href="<?php esc_url(the_permalink())?>"> <?php the_title();?></a> </li>
+                                        
+						      <?php  } $i++; }} wp_reset_postdata(); ?>
+                            
 						</ul>
 					</div>
 				</div>
 				<div id="centerNews"  class="centerNews col-sm-9 col-md-7 col-lg-7" >
-					<div id="feature-post" class="feature-post">
-						<a class="fea_pos_img" style="background:url(<?php echo esc_url( get_template_directory_uri() ); ?>/images/feature.jpg); background-size: cover;" title="Nhiều người đến sân bay Đà Nẵng đợi tin ông Nguyễn Bá Thanh" href="#">
-							<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/feature.jpg" alt="Nhiều người đến sân bay Đà Nẵng đợi tin ông Nguyễn Bá Thanh">				
-						</a>
-						<h1>
-							<a title="Nhiều người đến sân bay Đà Nẵng đợi tin ông Nguyễn Bá Thanh" href="#">
-								Nhiều người đến sân bay Đà Nẵng đợi tin ông Nguyễn Bá Thanh	
-							</a>
-						</h1>
-						<p>Để phòng ngừa người dân đổ xô đến sân bay đón ông Nguyễn Bá Thanh chữa bệnh từ Mỹ về, sáng 2-1&nbsp;an ninh khu vực sân bay Đà Nẵng đã được siết chặt.</p>
-					</div>
+                    <?php  $args = array(
+                                 'cat'            => $cat_ID,
+                   	            'posts_per_page'      => 1,
+                                'post__not_in'        =>$postID_exclude,
+                            );
+                                        
+                            $the_query = new WP_Query($args);
+                            // The Loop
+                            if ( $the_query->have_posts() ) {
+                                	
+                           	    while ( $the_query->have_posts() ) {
+                              		$the_query->the_post();
+                                    array_push($postID_exclude,get_the_ID());  
+                            ?>
+                                <div id="feature-post" class="feature-post">
+            						<a class="fea_pos_img" style="background:url(<?php echo get_bg_image(get_the_ID()); ?>); background-size: cover;" title="<?php the_title();?>" href="<?php esc_url(the_permalink())?>">
+            							<img src="<?php echo get_bg_image(get_the_ID()); ?>" alt="<?php the_title();?>">				
+            						</a>
+            						<h1>
+            							<a title="<?php the_title();?>" href="<?php esc_url(the_permalink())?>">
+            							 <?php the_title();?>
+            							</a>
+            						</h1>
+            						<?php the_excerpt()?>
+            					</div>
+                                     
+                                        
+                    <?php }} wp_reset_postdata(); ?>
+                    
 					<div class="related-post">
 						<ul class="other-post">
-							<li> 
-								<a href="#" style="background:url(<?php echo esc_url( get_template_directory_uri() ); ?>/images/related_img_1.jpg) no-repeat; background-size: cover;" class="img">
-									<img class="img-related-post" src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/related_img_1.jpg" alt="725630">
-								</a>
-								<a href="#"><p> Bất thường ở bộ phận sinh dục bé trai mà mẹ cần chú ý</p></a>
-							</li>
-							<li> 
-								<a href="#" style="background:url(<?php echo esc_url( get_template_directory_uri() ); ?>/images/related_img_2.jpg) no-repeat; background-size: cover;" class="img">
-									<img class="img-related-post" src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/related_img_2.jpg" alt="725630">
-								</a>
-								<a href="#"><p> Bất thường ở bộ phận sinh dục bé trai mà mẹ cần chú ý</p> </a>
-							</li>
-							<li> 
-								<a href="#" style="background:url(<?php echo esc_url( get_template_directory_uri() ); ?>/images/related_img_3.jpg) no-repeat; background-size: cover;" class="img">
-									<img class="img-related-post" src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/related_img_3.jpg" alt="725630">
-								</a>
-								<a href="#"><p> Bất thường ở bộ phận sinh dục bé trai mà mẹ cần chú ý</p></a>
-							</li>
-							
+                            <?php  $args = array(
+                                'cat'            => $cat_ID,
+                   	            'posts_per_page'      => 3,
+                                'post__not_in'        =>$postID_exclude,
+                            );
+                                        
+                            $the_query = new WP_Query($args);
+                            // The Loop
+                            if ( $the_query->have_posts() ) {
+                                	
+                           	    while ( $the_query->have_posts() ) {
+                              		$the_query->the_post();
+                                    array_push($postID_exclude,get_the_ID());  
+                            ?>
+                                <li> 
+    								<a href="<?php esc_url(the_permalink())?>" style="background:url(<?php echo get_bg_image(get_the_ID()); ?>) no-repeat; background-size: cover;" class="img">
+    									<img class="img-related-post" src="<?php echo get_bg_image(get_the_ID()); ?>" alt="<?php the_title();?>">
+    								</a>
+    								<a href="<?php esc_url(the_permalink())?>"><p><?php the_title();?></p></a>
+    							</li>
+                                        
+                    <?php }} wp_reset_postdata(); ?>
+                    
 						</ul>
 					</div>
 				</div>
@@ -91,7 +128,7 @@
 				<div id="containerNews">
 					<div id="colLeftNewsContent" class="hidden-xs col-sm-3 hidden-md col-lg-2" >
 						<div id="sticky-left-sidebar">
-							<h2 class="title-h2">Phản hồi nhiều</h2>
+							<h2 class="title-h2">Xem nhiều nhất</h2>
 							<div class="news-list">
 								<ul>
 									<li> 
@@ -111,345 +148,20 @@
 					<div id="centerNewsContent" class=" col-sm-9 col-md-7 col-lg-7">
 						<div id="gotoCenter" class="mainCt">
 							<div class="navMainCt cate ">
-								<h2 class="title-h2">Mới nhất</h2>
+								<h2 class="title-h2" id="cate_page" >Mới nhất</h2>
 							</div><!-- end navMainCt-->
 							<div id="contentBox">
-								<div id="nang-tabs_hot_newest" class="activeBox nang_wtt"> 
-									<input class="page" type="hidden" value="0"> 
-									<article class="newsCenter" id="post-733565">
-										<div class="autNewsCt row">
-											<div class="top-box-article"> 
-												
-												<span class="ctnAutCt col-md-10 col-sm-10 col-xs-9 col-lg-5"> 
-													<h4> 
-														<a href="#">8 lỗi lầm của phụ nữ khi yêu</a>
-													</h4>  
-												</span>
-												<a class="date-post" href="#">Thứ 7, 27.12.14 16:51</a> 
-												<div class="icon-list-btn col-lg-4">
-													<ul>
-														<li> 
-															<span title="Cảm ơn"><i class="fa fa-heart"></i></span>
-															<br>
-															<span class="value-btn">1</span>
-														</li>
-														<li> 
-															<a title="Chia sẻ" class="btn-shareface" data-gtmname="chia-se" rel="nofollow" target="_blank" href="#">
-																<span><i class="fa fa-share-alt"></i></span>
-																<br>
-																<span class="value-btn">29</span>
-															</a>
-														</li>
-														<li> 
-															<span title="Bình luận" ><i class="fa fa-comments"></i></span>
-															<br>
-															<span class="value-btn">0</span>
-														</li>
-													</ul>
-												</div>
-											</div>
-											<div class="bottom-box-article">
-												<a class="link-post-content" href="#">
-													<p>Sáng nay dậy sớm và đọc được bài viết “10 tật xấu “kinh hoàng” của đàn ông Việt” của một chị nào đó. Chị khẳng định đàn ông Việt rất tốt tuy nhiên cũng có rất nhiều điểm xấu xuất phát từ suy nghĩ. Tôi đồng ý. Và tôi nhận thấy có nửa này thì…</p> 
-												</a>
-												<div class="imgArtCt"> 
-													<em>
-														<a href="#">
-														<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/photo_item4.jpg" alt="8 lỗi lầm của phụ nữ khi yêu"></a>
-													</em>
-												</div>
-											</div>
-										</div>
-									</article>
-									<article class="newsCenter" id="post-705956">
-										<div class="autNewsCt row">
-											<div class="top-box-article">
-												<span class="ctnAutCt col-md-10 col-sm-10 col-xs-9 col-lg-5"> 
-													<h4> 
-														<a href="#">Mẹo tâm lý đơn giản cho cuộc sống dễ dàng hơn</a>
-													</h4> 
-												</span>
-												<a class="date-post" href="#">Thứ 3, 23.12.14 14:00</a>
-												<div class="icon-list-btn col-lg-4">
-													<ul>
-														<li> 
-															<span title="Cảm ơn"><i class="fa fa-heart"></i></span>
-															<br>
-															<span class="value-btn">1</span>
-														</li>
-														<li> 
-															<a title="Chia sẻ" class="btn-shareface" data-gtmname="chia-se" rel="nofollow" target="_blank" href="#">
-																<span><i class="fa fa-share-alt"></i></span>
-																<br>
-																<span class="value-btn">29</span>
-															</a>
-														</li>
-														<li> 
-															<span title="Bình luận" ><i class="fa fa-comments"></i></span>
-															<br>
-															<span class="value-btn">0</span>
-														</li>
-													</ul>
-												</div>
-											</div>
-											<div class="bottom-box-article">
-												<a class="link-post-content" href="">
-													<p>Có những điều rất đơn giản nhưng hữu ích tồn tại quanh ta, chẳng hạn như làm sao biết
-													người khác có muốn nghe bạn nói hay không, làm sao nhìn người ta mà không bị phát hiện hay 
-													làm sao để tán tỉnh người ấy mà không “hạ mình”? Nếu bạn đủ tinh tế…</p> 
-												</a>
-												<div class="imgArtCt"> 
-													<em>
-														<a  href="#">
-															<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/photo_item1.jpg" alt="8 điều các cặp đôi cần thống nhất trước khi kết hôn">
-														</a>
-													</em>
-												</div>
-											</div>
-										</div>
-									</article>
-									<article class="newsCenter" id="post-733234">
-										<div class="autNewsCt row">
-											<div class="top-box-article"> 
-												<span class="ctnAutCt col-md-10 col-sm-10 col-xs-9 col-lg-5"> 
-													<h4> 
-														<a href="#">10 cách từ chối khéo léo</a>
-													</h4>  
-												</span>
-												<a class="date-post" href="#">Thứ 6, 26.12.14 16:37</a>
-												<div class="icon-list-btn col-lg-4">
-													<ul>
-														<li> 
-															<span title="Cảm ơn"><i class="fa fa-heart"></i></span>
-															<br>
-															<span class="value-btn">1</span>
-														</li>
-														<li> 
-															<a title="Chia sẻ" class="btn-shareface" data-gtmname="chia-se" rel="nofollow" target="_blank" href="#">
-																<span><i class="fa fa-share-alt"></i></span>
-																<br>
-																<span class="value-btn">29</span>
-															</a>
-														</li>
-														<li> 
-															<span title="Bình luận" ><i class="fa fa-comments"></i></span>
-															<br>
-															<span class="value-btn">0</span>
-														</li>
-													</ul>
-												</div>
-											</div>
-											<div class="bottom-box-article">
-												<a class="link-post-content" href="#">
-													<p>Trong cuộc sống, chúng ta gặp phải rất nhiều tính huống mà không biết nên từ chối hay xử 
-													lý như thế nào. Hôm trước mình vừa đọc được bài chia sẻ này rất hay. Chiều nay có thời gian 
-													nên chia sẻ lại cho mọi người cùng đọc..hi Có lẽ tiếng khó nói nhất…</p> 
-												</a>
-												<div class="imgArtCt"> 
-													<em>
-														<a href="#">
-															<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/photo_item1.jpg" alt="8 điều các cặp đôi cần thống nhất trước khi kết hôn">
-														</a>
-													</em>
-												</div>
-											</div>
-										</div>
-									</article>
-									<article class="newsCenter" id="post-141273">
-										<div class="autNewsCt row">
-											<div class="top-box-article"> 
-												<span class="ctnAutCt col-md-10 col-sm-10 col-xs-9 col-lg-5"> 
-													<h4> 
-														<a href="#">Phải lấy người như ai?</a>
-													</h4>
-												</span>
-												<a class="date-post" href="#">Thứ 3, 11.11.14 09:00</a>
-												<div class="icon-list-btn col-lg-4">
-													<ul>
-														<li> 
-															<span title="Cảm ơn"><i class="fa fa-heart"></i></span>
-															<br>
-															<span class="value-btn">1</span>
-														</li>
-														<li> 
-															<a title="Chia sẻ" class="btn-shareface" data-gtmname="chia-se" rel="nofollow" target="_blank" href="#">
-																<span><i class="fa fa-share-alt"></i></span>
-																<br>
-																<span class="value-btn">29</span>
-															</a>
-														</li>
-														<li> 
-															<span title="Bình luận" ><i class="fa fa-comments"></i></span>
-															<br>
-															<span class="value-btn">0</span>
-														</li>
-													</ul>
-												</div>
-											</div>
-											<div class="bottom-box-article">
-												<a class="link-post-content" href="#">
-													<p>Nhà có mỗi một cái TV, mình định ra xem phim kênh HBO thì bị vợ đuổi ra 
-													ngồi máy tính, vì vợ đang xem phim Hàn Quốc. Ngồi buồn buồn vào WTT đọc tâm sự 
-													của các chị em, người thì bị chồng mắng chửi, người thì bị chồng lạnh nhạt, người thì bị…</p> 
-												</a>
-												<div class="imgArtCt"> 
-													<em>
-														<a href="#">
-															<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/photo_item1.jpg" alt="8 điều các cặp đôi cần thống nhất trước khi kết hôn">
-														</a>
-													</em>
-												</div>
-											</div>
-										</div>
-									</article>
-									<article class="newsCenter" id="post-731604">
-										<div class="autNewsCt row">
-											<div class="top-box-article"> 
-												<span class="ctnAutCt col-md-10 col-sm-10 col-xs-9 col-lg-5"> 
-												<h4> 
-													<a href="#">Tâm thư của một phụ nữ lấy chồng để chạy trốn tuổi 27</a>
-												</h4>  
-												</span>
-												<a class="date-post" href="#">Thứ 3, 23.12.14 10:28</a> 
-												<div class="icon-list-btn col-lg-4">
-													<ul>
-														<li> 
-															<span title="Cảm ơn"><i class="fa fa-heart"></i></span>
-															<br>
-															<span class="value-btn">1</span>
-														</li>
-														<li> 
-															<a title="Chia sẻ" class="btn-shareface" data-gtmname="chia-se" rel="nofollow" target="_blank" href="#">
-																<span><i class="fa fa-share-alt"></i></span>
-																<br>
-																<span class="value-btn">29</span>
-															</a>
-														</li>
-														<li> 
-															<span title="Bình luận" ><i class="fa fa-comments"></i></span>
-															<br>
-															<span class="value-btn">0</span>
-														</li>
-													</ul>
-												</div>
-											</div>
-											<div class="bottom-box-article">
-												
-												<a class="link-post-content" href="#">
-													<p>Gửi những cô gái sắp, đang và vừa bước qua tuổi 27 – cái tuổi dễ khiến bạn hoảng 
-													hốt và hoang mang khi mang trên mình hai chữ “gái ế” Năm 23 tuổi, hai chữ “gái ế” với 
-													tôi lúc ấy chỉ là một cách nói cho vui mồm. Miệng thì than thở với…</p> 
-												</a>
-												<div class="imgArtCt"> 
-													<em>
-														<a href="#">
-															<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/photo_item3.jpg" alt="Tâm thư của một phụ nữ lấy chồng để chạy trốn tuổi 27">
-														</a>
-													</em>
-												</div>
-											</div>
-										</div>
-									</article>
-									<article class="newsCenter" id="post-733063">
-										<div class="autNewsCt row">
-											<div class="top-box-article"> 
-												<span class="ctnAutCt col-md-10 col-sm-10 col-xs-9 col-lg-5"> 
-													<h4> 
-														<a href="#">35 bí mật làm nên hôn nhân hạnh phúc</a>
-													</h4>  
-												</span>
-												<a class="date-post" href="#">Thứ 6, 26.12.14 11:47</a> 
-												<div class="icon-list-btn col-lg-4">
-													<ul>
-														<li> 
-															<span title="Cảm ơn"><i class="fa fa-heart"></i></span>
-															<br>
-															<span class="value-btn">1</span>
-														</li>
-														<li> 
-															<a title="Chia sẻ" class="btn-shareface" data-gtmname="chia-se" rel="nofollow" target="_blank" href="#">
-																<span><i class="fa fa-share-alt"></i></span>
-																<br>
-																<span class="value-btn">29</span>
-															</a>
-														</li>
-														<li> 
-															<span title="Bình luận" ><i class="fa fa-comments"></i></span>
-															<br>
-															<span class="value-btn">0</span>
-														</li>
-													</ul>
-												</div>
-											</div>
-											<div class="bottom-box-article">
-												
-												<a class="link-post-content" href="#">
-													<p>Gật đầu đồng ý một lời cầu hôn thì dễ, nhưng giữ gìn hạnh phúc gia đình những 
-													năm về sau lại rất khó. Những áp lực công việc, con cái, hai bên nội ngoại như bủa 
-													vây cả hai vợ chồng. Có dịp tiếp xúc với nhiều gia đình hạnh phúc, mình luôn hỏi…</p> 
-												</a>
-												<div class="imgArtCt"> 
-													<em>
-														<a href="#">
-														<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/photo_item2.jpg" alt="35 bí mật làm nên hôn nhân hạnh phúc"></a>
-													</em>
-												</div>
-											</div>
-										</div>
-									</article>
-									<article class="newsCenter" id="post-731138">
-										<div class="autNewsCt row">
-											<div class="top-box-article"> 
-												<span class="ctnAutCt col-md-10 col-sm-10 col-xs-9 col-lg-5"> 
-													<h4> 
-														<a href="#">8 điều các cặp đôi cần thống nhất trước khi kết hôn</a>
-													</h4>  
-												</span>
-												<a class="date-post" href="#">Thứ 5, 25.12.14 11:00</a> 
-												<div class="icon-list-btn col-lg-4">
-													<ul>
-														<li> 
-															<span title="Cảm ơn"><i class="fa fa-heart"></i></span>
-															<br>
-															<span class="value-btn">1</span>
-														</li>
-														<li> 
-															<a title="Chia sẻ" class="btn-shareface" data-gtmname="chia-se" rel="nofollow" target="_blank" href="#">
-																<span><i class="fa fa-share-alt"></i></span>
-																<br>
-																<span class="value-btn">29</span>
-															</a>
-														</li>
-														<li> 
-															<span title="Bình luận" ><i class="fa fa-comments"></i></span>
-															<br>
-															<span class="value-btn">0</span>
-														</li>
-													</ul>
-												</div>
-											</div>
-											<div class="bottom-box-article">
-												<a class="link-post-content" href="#">
-													<p>Sự đồng thuận trong suy nghĩ, quan điểm sẽ giúp đời sống hôn nhân của hai bạn không đi vào ngõ cụt. 
-													Thời gian yêu nhau luôn là khoảnh khắc đẹp trong lòng hai người. Nhưng để duy trì được sự kết nối đó 
-													trong một thời gian lâu dài sau hôn nhân lại là…</p> 
-												</a>
-												<div class="imgArtCt"> 
-													<em>
-														<a href="#">
-															<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/photo_item1.jpg" alt="8 điều các cặp đôi cần thống nhất trước khi kết hôn">
-														</a>
-													</em>
-												</div>
-											</div>
-										</div>
-								</article>
-								
-								<input type="hidden" class="lastpost_date" value="2014-12-25 12:07:34">
-							</div>
+								<div id="newest-post" class="activeBox nang_wtt"> 
+                                    <input class="page" id="cate_id" type="hidden" value="<?php echo $cat_ID; ?>"> 
+                                    <input type="hidden" class="lastpost_date" value="<?php echo date('Y-m-d h:i:s');?>">
+                                    <?php get_cate_new_first_posts();?>
+									
+                                   
+							     </div>
+                                
 							</div>
 						</div><!-- end gotoCenter-->
-						<div id="loadmoreajaxloader" style="display: none;"> 
+						<div id="loadmoreajaxloader"> 
 							<img alt="Loading more content" src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/ajax-loader.gif">
 						</div>
 					</div><!-- end centerNewsContent-->
@@ -462,65 +174,55 @@
 									<li> 
 										<a href="#">
 											<div class="avatar-img"> 
-												<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar1820576_2.gif" alt="2062727">
+												<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/most_view_img1.jpg" alt="2062727">
 											</div>
 											<div class="right-list-baiviet">
 												<div class="content-baiviet"> Công dụng dầu gấc trong làm đẹp và cách làm nhé</div>
-												<div class="bottom-baiviet"> 
-													<span class="like-baiviet"><span class="number-baiviet">7618</span> lượt thích</span>
-												</div>
+											
 											</div> 
 										</a>
 									</li>
 									<li> 
 										<a href="#">
 											<div class="avatar-img"> 
-												<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar209105_1.gif" alt="2062727"/>
+												<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/most_view_img2.jpg" alt="2062727"/>
 											</div>
 											<div class="right-list-baiviet">
 												<div class="content-baiviet"> Tại sao Đường Tăng vô dụng lại trở thành người lãnh đạo, còn</div>
-												<div class="bottom-baiviet">  
-													<span class="like-baiviet"><span class="number-baiviet">23675</span> lượt thích</span>
-												</div>
+												
 											</div> 
 										</a>
 									</li>
 									<li> 
 										<a href="#">
 											<div class="avatar-img"> 
-												<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar492228_7.gif" alt="2062727">
+												<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/most_view_img3.jpg" alt="2062727">
 											</div>
 											<div class="right-list-baiviet">
 												<div class="content-baiviet"> Công thức lẩu Thái chua cay đây</div>
-												<div class="bottom-baiviet">  
-													<span class="like-baiviet"><span class="number-baiviet">5079</span> lượt thích</span>
-												</div>
+											
 											</div>
 										</a>
 									</li>
 									<li> 
 										<a href="#">
 											<div class="avatar-img"> 
-												<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar1297320_2.gif" alt="2062727"/>
+												<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/most_view_img4.jpg" alt="2062727"/>
 											</div>
 											<div class="right-list-baiviet">
 												<div class="content-baiviet"> Nhận biết 6 kiểu khóc của con để có cách "đối phó"</div>
-												<div class="bottom-baiviet"> 
-													<span class="like-baiviet"><span class="number-baiviet">1078</span> lượt thích</span>
-												</div>
+												
 											</div>
 										</a>
 									</li>
 									<li> 
 										<a href="#">
 											<div class="avatar-img"> 
-												<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar209105_1.gif" alt="2062727">
+												<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/most_view_img5.jpg" alt="2062727">
 											</div>
 											<div class="right-list-baiviet">
 												<div class="content-baiviet"> Tâm thư của một phụ nữ lấy chồng để chạy trốn tuổi 27</div>
-												<div class="bottom-baiviet"> 
-													<span class="like-baiviet"><span class="number-baiviet">4966</span> lượt thích</span>
-												</div>
+												
 											</div> 
 										</a>
 									</li>

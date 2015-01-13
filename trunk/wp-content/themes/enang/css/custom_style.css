@@ -96,19 +96,25 @@ a:hover {
 .navcontain ul .digital a .nav_point {
 	background: #74bc48;
 }
-.navcontain ul .goods a .nav_point, .ctnNavCt .orangeNews a .nav_point{
+.navcontain ul .goods a .nav_point, .ctnNavCt .orangeNews .sa_div .nav_point{
 	background: #eb6f70;
 }
-.navcontain ul .interior a .nav_point, .ctnNavCt .pinkNews a .nav_point {
+.navcontain ul .interior a .nav_point, .ctnNavCt .pinkNews .sa_div .nav_point {
 	background: #40a880;
 }
-.navcontain ul .food a .nav_point, .ctnNavCt .greenNews a .nav_point {
+.navcontain ul .food a .nav_point{
 	background: #eb9e79;
 }
-.navcontain ul .fashion a .nav_point, .ctnNavCt .purpleNews a .nav_point {
+.ctnNavCt .greenNews .sa_div .nav_point {
+    background: #ff8400;
+}
+.navcontain ul .fashion a .nav_point{
 	background: #955694;
 }
-.navcontain ul .culture a .nav_point, .ctnNavCt .blueNews a .nav_point {
+.ctnNavCt .purpleNews .sa_div .nav_point {
+	background: #e347a7;
+}
+.navcontain ul .culture a .nav_point, .ctnNavCt .blueNews .sa_div .nav_point {
 	background: #309ac1;
 }
 .navcontain ul .travel a .nav_point {
@@ -145,7 +151,7 @@ a:hover {
 	behavior: url("js/PIE.htc");
 }
 
-.navcontain ul  a:hover >.nav_point, .navMainCt ul  a:hover >.nav_point{
+.navcontain ul  a:hover >.nav_point, .navMainCt ul  .sa_div:hover >.nav_point{
 	width: 14px;
 	height: 14px;
 }
@@ -360,7 +366,6 @@ a:hover {
 #carousel-feature-posts .carousel-caption a {
 	color: #fff;
 	position: absolute;
-	top: -15%;
 }
 .carousel-caption a {
 	font-family: 'Roboto';
@@ -378,24 +383,33 @@ a:hover {
 	font-size: 12px;
 	text-align: center;
 	font-weight: bold;
-	margin-top: 5px;
+	margin-top: 45px;
 	bottom: 6px;
 	white-space: nowrap;
 }
 .slide_kinh_nghiem {
-	background-color: #e347a7;
+	background-color: #955694;
 }
 .slide_lam_dep {
-	background-color: #3498db;
+	background-color: #40a880;
 }
 .slide_lam_me {
-	background-color: #9b59b6;
+	background-color: #eb9e79;
 }
 .slide_tam_su {
-	background-color: #1abc9c;
+	background-color: #eb6f70;
 }
-.slide_nang_2_0 {
-	background-color: #e67e22;
+.slide_doc_bao {
+	background-color: #74bc48;
+}
+.slide_nha_cua {
+	background-color: #309ac1;
+}
+.slide_thu_gian {
+	background-color: #ff8400;
+}
+.slide_nang_2_0{
+    background-color: #f6c500;
 }
 ul.other-post {
 	overflow: hidden;
@@ -489,21 +503,40 @@ ul.other-post li .right-other-post {
 	border-bottom: 1px solid #d9d9d9;
 	font-size: 0;
 }
-.ctnNavCt .orangeNews a{
+.ctnNavCt .orangeNews .sa_div{
 	color: #eb6f70;
 }
-.ctnNavCt .greenNews a{
+.ctnNavCt .orangeNews .active{
+    background-color: #eb6f70 !important;
+    color: #fff !important;
+}
+.ctnNavCt .greenNews .sa_div{
 	color: #ff8400;
 }
-.ctnNavCt .blueNews a{
+.ctnNavCt .greenNews .active{
+    background-color: #ff8400 !important;
+    color: #fff !important;
+}
+.ctnNavCt .blueNews .sa_div{
 	color: #309ac1;
 }
-.ctnNavCt .purpleNews a{
+.ctnNavCt .blueNews .active{
+    background-color: #309ac1 !important;
+    color: #fff !important;
+}
+.ctnNavCt .purpleNews .sa_div{
 	color: #e347a7;
 }
-
-.ctnNavCt .pinkNews a{
+.ctnNavCt .purpleNews .active{
+    background-color: #e347a7 !important;
+    color: #fff !important;
+}
+.ctnNavCt .pinkNews .sa_div{
 	color: #40a880;
+}
+.ctnNavCt .pinkNews .active{
+    background-color: #40a880 !important;
+    color: #fff !important;
 }
 .navMainCt>ul li {
 	cursor: pointer;
@@ -522,7 +555,7 @@ ul.other-post li .right-other-post {
 	width: 128px;
 	display: inline-block;
 }
-.ctnNavCt>li>a {
+.ctnNavCt >li >.sa_div {
 	background-repeat: no-repeat;
 	display: block;
 	text-align: center;
@@ -675,6 +708,12 @@ a.date-post {
 .bottom-box-article {
 	padding: 0 0 15px;
 }
+.bottom-box-article img{
+    max-width: 500px;
+    margin-left: auto;
+    display: block;
+    margin-right: auto;
+}
 .autNewsCt h4 {
 	clear: both;
 	margin-left: 5px;
@@ -696,7 +735,6 @@ a.link-post-content:hover p {
 }
 .imgArtCt {
 	max-height: 300px;
-	max-width: 491px;
 	overflow: hidden;
 }
 .imgArtCt, .imgArtCtDetail {
@@ -712,8 +750,11 @@ a.link-post-content:hover p {
 	color: #5f656c;
 }
 .imgArtCt img, .imgArtCtDetail img {
-	max-width: 491px;
+	max-width: 450px;
 	width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 .title-h2 {
 	height: 40px;
@@ -731,6 +772,7 @@ a.link-post-content:hover p {
 .navMainCt .title-h2{
 	background-color: #EA9696;
 	color: #fff;
+    cursor: pointer;
 }
 .search .title-h2{
 	background-color: #C2BCBC;
@@ -759,19 +801,19 @@ ul.baiviet-list li {
 	line-height: 1.4;
 }
 .avatar-img {
-	width: 38px;
-	height: 38px;
+	width: 65px;
+	height: 50px;
 	float: left;
 	text-align: center;
 	line-height: 40px;
 }
 .avatar-img img {
-	width: 32px;
-	height: 32px;
+	width: 65px;
+	height: 50px;
 	border: 1px solid #ccc;
 }
 .right-list-baiviet {
-	width: 220px;
+	width: 205px;
 	float: left;
 	margin-left: 10px;
 }
@@ -1195,4 +1237,24 @@ ul.baiviet-list li {
 		top: 17px;
 	}
 	
+}
+
+#carousel-feature-posts .item{
+    height: 311px !important;
+}
+#carousel-feature-posts .item img{
+    width: 100%; 
+    height: 311px; 
+    display: none;
+}
+#loadmoreajaxloader{
+    width: 225px;
+    height: 30px;
+    position: fixed;
+    top: 84%;
+    bottom: 0%;
+    left: 0%;
+    right: 100%;
+    margin: auto;
+    display: none;
 }
