@@ -301,6 +301,8 @@ a:hover {
 }
 .news-list {
 	background-color: #fff;
+    height: 501px;
+    overflow: hidden;
 }
 .news-list ul li{
 	margin: 5px 0;
@@ -722,6 +724,7 @@ a.date-post {
 	font-family: 'Roboto','Open Sans',sans-serif;
 	font-size: 18px;
 	line-height: 1.4;
+    font-weight: bold;
 }
 #contentBox article a p {
 	font-size: 15px;
@@ -1085,7 +1088,7 @@ ul.baiviet-list li {
 		font-size: 12px;
 	}
 	.orangeNews, .greenNews, .blueNews, .purpleNews, .pinkNews{
-		width: 124px;
+		width: 120px;
 		display: inline-block;
 	}
 }
