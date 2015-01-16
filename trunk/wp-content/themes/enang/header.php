@@ -8,12 +8,34 @@
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
+    <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>
 	 <link type="text/css" rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/include/font-awesome-4.2.0/css/font-awesome.css">
 	<!--[if IE ]><link type="text/css" media="all" rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/ie.css" /><![endif]-->
 	<!--[if lt IE 9]><script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/html5.js"></script><![endif]-->
 	<!--[if IE 8]><script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/respond.src.js"></script><![endif]-->
 	<!--[if !IE]><!-->
+    
     <?php wp_head(); ?>
+    <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap.js"></script>
+    
+    <!--script>
+		 $(function(){
+			var length = $('.navMainCt').offset().top + $('.navMainCt').height();
+			//alert(length);
+			$(window).scroll(function () {
+				if ($(window).scrollTop() > length) {
+					$('#sticky-left-sidebar').addClass('sticky');
+					$('.navMainCt').addClass('mid-menu-fixed');
+					$('#sticky-right-sidebar').addClass('sticky');
+				} else {
+					$('#sticky-left-sidebar').removeClass('sticky');
+					$('.navMainCt').removeClass('mid-menu-fixed');
+					$('#sticky-right-sidebar').removeClass('sticky');
+				}
+			});
+		 });
+		
+</script-->
   </head>
 
   <body <?php if(is_single()) echo "class='bg-detail'" ;?>>

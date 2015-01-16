@@ -317,6 +317,7 @@ function get_cate_new_posts(){
 
 function home_get_cate_new_posts()
 {
+   
     if(isset($_POST['current_date'])){
         $current_date = $_POST['current_date'];
    }

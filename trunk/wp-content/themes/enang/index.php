@@ -111,7 +111,9 @@
 						<ul>
                             <?php   $i = 0;
                                     $args = array(
+                                        'cat'                 =>'-10',
                                     	'posts_per_page'      => 6,
+                                        
                                         'post__not_in'        =>$postID_exclude
                                         );
                                         
@@ -183,7 +185,7 @@
 				<div id="containerNews">
 					<div id="colLeftNewsContent" class="hidden-xs col-sm-3 hidden-md col-lg-2" >
 						<div id="sticky-left-sidebar">
-							<h2 class="title-h2">Xem nhiều nhất</h2>
+							<h2 class="title-h2">Chào buổi sáng</h2>
 							<div class="news-list">
 								<ul>
 									<li> 
@@ -204,7 +206,7 @@
 							<div class="item col-xs-6 clearfix">
 								<div id="mobile_btn_rea" class="ctn_cateRea mobile_btn_category">
 									<div> 
-										<a href="#"> 
+										<a href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/doc-bao"> 
 											<span>Đọc báo</span>
 										</a>
 									</div>
@@ -213,7 +215,7 @@
 							<div class="item col-xs-6 clearfix">
 								<div id="mobile_btn_conf" class="ctn_cateConf mobile_btn_category">
 									<div> 
-										<a href="#"> 
+										<a href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/tam-su"> 
 											<span>Tâm sự</span>
 										</a>
 									</div>
@@ -222,7 +224,7 @@
 							<div class="item col-xs-6 clearfix">
 								<div id="mobile_btn_bea" class="ctn_cateBea mobile_btn_category">
 									<div> 
-										<a href="#"> 
+										<a href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/lam-dep"> 
 											<span>Làm đẹp</span>
 										</a>
 									</div>
@@ -231,7 +233,7 @@
 							<div class="item col-xs-6 clearfix">
 								<div id="mobile_btn_mom" class="ctn_cateMom mobile_btn_category">
 									<div> 
-										<a href="#"> 
+										<a href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/me-va-be"> 
 											<span>Mẹ và bé</span>
 										</a>
 									</div>
@@ -240,7 +242,7 @@
 							<div class="item col-xs-6 clearfix">
 								<div id="mobile_btn_exp" class="ctn_cateExp mobile_btn_category">
 									<div> 
-										<a href="#"> 
+										<a href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/kinh-nghiem-hay"> 
 											<span>Kinh nghiệm hay</span>
 										</a>
 									</div>
@@ -249,7 +251,7 @@
 							<div class="item col-xs-6 clearfix">
 								<div id="mobile_btn_nang" class="ctn_cateCaf mobile_btn_category">
 									<div> 
-										<a href="#"> 
+										<a href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/giai-tri"> 
 											<span>Giải trí</span> 
 										</a>
 									</div>
@@ -294,7 +296,7 @@
 								<div id="docbao-tabs" class="activeBox nang_wtt"> 
 									<input class="page cate_slug_box" type="hidden" value="doc-bao"> 
 									<?php echo home_get_first_cate_new_posts();?>
-							</div>
+				                </div>
 							</div><!-- end contentBox-->
 						</div><!-- end gotoCenter-->
 						<div id="loadmoreajaxloader" style="display: none;"> 
@@ -376,27 +378,10 @@
 		
    </div><!-- end main-->
    
-    <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>
+    <!--script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script-->
     <!-- Optional: Incorporate the Bootstrap JavaScript plugins -->
-    <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap.js"></script>
-	<script>
-		 $(function(){
-			var length = $('.navMainCt').offset().top + $('.navMainCt').height();
-			//alert(length);
-			$(window).bind('scroll', function () {
-				if ($(window).scrollTop() > length) {
-					$('#sticky-left-sidebar').addClass('sticky');
-					$('.navMainCt').addClass('mid-menu-fixed');
-					$('#sticky-right-sidebar').addClass('sticky');
-				} else {
-					$('#sticky-left-sidebar').removeClass('sticky');
-					$('.navMainCt').removeClass('mid-menu-fixed');
-					$('#sticky-right-sidebar').removeClass('sticky');
-				}
-			});
-		 });
-		
-</script>
+    <!--script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap.js"></script-->
+	
   </body>
 
 </html>
