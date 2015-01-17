@@ -138,6 +138,7 @@ function setPostViews($postID) {
 }
 
 
+
 //get first new posts of each category before process ajax scroll
 function get_cate_new_first_posts(){
    if(isset($_POST['cate_id'])){
@@ -262,6 +263,11 @@ add_action('wp_ajax_nopriv_get_cate_new_posts', 'get_cate_new_posts');
 //register ajax action for home page
 add_action('wp_ajax_home_get_cate_new_posts', 'home_get_cate_new_posts');
 add_action('wp_ajax_nopriv_home_get_cate_new_posts', 'home_get_cate_new_posts');
+
+//register ajax action for single page
+add_action('wp_ajax_set_post_love', 'set_post_love');
+add_action('wp_ajax_nopriv_set_post_love', 'set_post_love');
+
 //get new post of each category by ajax
 function get_cate_new_posts(){
    if(isset($_POST['cate_id'])){
@@ -458,10 +464,52 @@ function get_color($cate_name){
     return $color;
 }									
 											
+
 												
-												 
+function set_post_love() {
+    if(isset($_POST['post_id']))
+    {
+        $postID = $_POST['post_id'];
+        $count_key = 'post_love_count';
+        $count = get_post_meta($postID, $count_key, true);
+        if($count==''){
+            $count = 0;
+            delete_post_meta($postID, $count_key);
+            add_post_meta($postID, $count_key, '0');
+        }else{
+            $count++;
+            update_post_meta($postID, $count_key, $count);
+        }
+        echo 'success';
+    }
+    else
+    {
+        echo "fail";
+    }
+     
+    die();
+}												 
 													 
-														
+function disqus_embed($disqus_shortname) {
+    global $post;
+    wp_enqueue_script('disqus_embed','http://'.$disqus_shortname.'.disqus.com/embed.js');
+    echo '<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = "'.$disqus_shortname.'";
+        var disqus_title = "'.$post->post_title.'";
+        var disqus_url = "'.get_permalink($post->ID).'";
+        var disqus_identifier = "'.$disqus_shortname.'-'.$post->ID.'";
+    </script>';
+}
+ 
+add_action('wp_head', 'disqus_embed');
+ 
+function disqus_count($disqus_shortname)
+{
+    global $post;
+    wp_enqueue_script('disqus_count', 'http://' . $disqus_shortname . '.disqus.com/count.js');
+    echo '<a class="num_comments_link" href="' . get_permalink() . '#disqus_thread" data-disqus-identifier="' . $disqus_shortname . '-' . $post->ID . '"></a>';
+}														
 													  
 												
 												 
