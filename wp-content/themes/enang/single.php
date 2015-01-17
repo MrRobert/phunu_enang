@@ -201,7 +201,40 @@
 						</ul>
 					</div>
 				</div>
-				
+				 <div class="block-related-news">
+            			<h2 class="title">
+            				<a target="_blank" href="#" title="Ảnh đoạt giải" style="color: #ff8400;">Giải trí - thư giãn</a>
+            			</h2>
+                        <div class="feature-1">
+							<a target="_blank" class="thumbs img_80_45" title="Bếp xanh công nghệ - Lê Vấn" href="#">
+            					<img src="http://thitruong-img.tuoitre.vn/post/Bếp xanh công nghệ - Lê Vấn_14195663334139.jpg">
+            				</a>
+							<a target="_blank" title="Bếp xanh công nghệ - Lê Vấn" href="#">
+        					   Bếp xanh công nghệ - Lê Vấn
+                            </a>
+			             </div>		
+						<ul class="list-1">
+                            <li>
+            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Nỗi lo còn đó - Lê Minh Quát" href="#">Nỗi lo còn đó - Lê Minh Quát</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Hạn chế túi ni lông - Nguyễn Thứ Tính" href="#">Hạn chế túi ni lông - Nguyễn Thứ Tính</a>
+            				</li>
+                             <li>
+            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
+            				</li>
+						</ul>
+					</div>
+				</div>
 				
 		
 			</div>
