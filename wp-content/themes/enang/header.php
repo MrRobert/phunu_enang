@@ -4,7 +4,8 @@
   <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
     <title><?php wp_title(''); ?></title>
-	
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
@@ -39,8 +40,15 @@
   </head>
 
   <body <?php if(is_single()) echo "class='bg-detail'" ;?>>
-  <!--Fix Navigation Bar with drop down menu
-  ================ -->
+  <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  <!--Fix Navigation Bar with drop down menu -->
     <header>
 		<div class="navcontain navbar navbar-default">
 			<div class="container">

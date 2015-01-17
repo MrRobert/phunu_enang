@@ -179,6 +179,56 @@ $(document).ready(function() {
     }
     /**********/
 
+    // Like article
+	$('.tto_object_like_btn').one('click', function() {
+		
+        var like_number_element = $(this).siblings('.sl');
+		var like_button = $(this);
+        var post_id = $('#post_id').val();
+        
+        console.log(post_id);
+        $.ajax({
+            type : 'POST',
+            data : {'action' : 'set_post_love','post_id': post_id},
+            url : AJAX.url,
+            success : function (result){
+                console.log(result);
+    			if (result == 'success') {
+    				temp = (like_number_element.html()).split('<span></span>');console.log(temp);
+    				var like_number = parseInt(temp[1]) + 1;console.log(like_number);
+    				like_number_element.html(like_number);
+    				like_button.removeClass('tto_object_like_btn');
+    				like_button.css('background-color', '#a2a2a2');
+    			} else {
+    				alert('Có lỗi xảy ra, vui lòng thử lại.');
+    			}                
+            },
+            error: function () {
+            console.log('Co loi xay ra');
+            }
+        });
+        
+        
+        
+		/*$.ajax({
+			type: 'POST',
+			data : {'action' : 'set_post_love','post_id': post_id},
+            url : AJAX.url,
+		}).done(function(result) {
+		  console.log(result);
+			if (result == 'success') {
+				temp = (like_number_element.html()).split('<span></span>');console.log(temp);
+				var like_number = parseInt(temp[1]) + 1;console.log(like_number);
+				like_number_element.html(like_number);
+				like_button.removeClass('tto_object_like_btn');
+				like_button.css('background-color', '#a2a2a2');
+			} else {
+				alert('Có lỗi xảy ra, vui lòng thử lại.');
+			} 
+		});*/
+        
+	});
+
     
     
 });

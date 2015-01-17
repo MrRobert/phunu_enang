@@ -63,29 +63,42 @@
                 						</div>
                 					</article>
                             <?php setPostViews(get_the_ID()); ?>
+                            
+                            <div class="like-share-con">
+    						<p class="like_button">
+    							<span class="btn-qt">
+    								<a href="javascript:;" title="quan tâm" class="tto_object_like_btn">quan tâm</a>
+    								<span class="sl"><span></span>2</span>
+    							</span>
+    						</p>
+    						<div class="like_share" style="width: 100%;float: left; margin-bottom: 55px; border: 1px solid #ddd;padding: 5px;">
+                            	<div class="like" style="float:left; width:80px;">
+                                		<div class="fb-like" data-href="<?php echo esc_url(get_the_permalink())?>" data-layout="box_count" data-action="like" data-show-faces="true" data-share="false"></div>
+                            	</div>
+                            	<div class="share" style="text-align:right; width:100%;"> 
+                                		<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/share_ngay.png" style="margin-bottom: 15px">
+                                		<a rel="nofollow" target="_blank" href="http://www.facebook.com/sharer.php?u=<?php echo esc_url(get_the_permalink())?>">
+                                    		<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/share_button.png" alt="Share" style="margin-left:2px" title="Share">
+                                		</a>
+                            	</div>
+    						</div>
+                            <input type="hidden" id="post_id" name="post_id" value="<?php echo get_the_ID(); ?>"/>
+    					</div>
+                        <ul class="block-key">
+    			             <li>Từ khóa</li>
+    						<li>
+    				            <a href="http://tuoitre.vn/chu-de/bao-hiem-y-te/7297.html">bảo hiểm y tế</a>
+    			             </li>
+    						<li>
+                				<a href="http://tuoitre.vn/chu-de/bao-hiem-xa-hoi/419781.html">bảo hiểm xã hội</a>
+                			</li>
+    					</ul>
+                          <?php get_template_part('comments'); ?>
                             <?php endwhile; ?>
                      <?php } ?>
 					
 					
-					<div class="like-share-con">
-						<p class="like_button">
-							<span class="btn-qt">
-								<a href="javascript:;" title="quan tâm" class="tto_object_like_btn">quan tâm</a>
-									<span class="sl"><span></span>2</span>
-							</span>
-						</p>
-						<div class="like_share" style="width: 100%;float: left; margin-bottom: 55px; border: 1px solid #ddd;padding: 5px;">
-                        	<div class="like" style="float:left; width:80px;">
-                            		<div class="fb-like fb_iframe_widget" data-href="<?php echo esc_url(get_the_permalink())?>" data-layout="box_count" data-action="like" data-show-faces="true" data-share="false" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=&amp;href=http%3A%2F%2Fblog.zotadi.com%2F2014%2F11%2F06%2F10-dat-nuoc-co-nhieu-gai-xinh-nhat-the-gioi%2F&amp;layout=box_count&amp;locale=vi_VN&amp;sdk=joey&amp;share=false&amp;show_faces=true"><span style="vertical-align: bottom; width: 55px; height: 61px;"><iframe name="f2bf36dbe8" width="1000px" height="1000px" frameborder="0" allowtransparency="true" scrolling="no" title="fb:like Facebook Social Plugin" src="http://www.facebook.com/v2.0/plugins/like.php?action=like&amp;app_id=&amp;channel=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter%2F7r8gQb8MIqE.js%3Fversion%3D41%23cb%3Df58befc64%26domain%3Dblog.zotadi.com%26origin%3Dhttp%253A%252F%252Fblog.zotadi.com%252Ff290941088%26relation%3Dparent.parent&amp;href=http%3A%2F%2Fblog.zotadi.com%2F2014%2F11%2F06%2F10-dat-nuoc-co-nhieu-gai-xinh-nhat-the-gioi%2F&amp;layout=box_count&amp;locale=vi_VN&amp;sdk=joey&amp;share=false&amp;show_faces=true" style="border: none; visibility: visible; width: 55px; height: 61px;" class=""></iframe></span></div>
-                        	</div>
-                        	<div class="share" style="text-align:right; width:100%;"> 
-                            		<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/share_ngay.png" style="margin-bottom: 15px">
-                            		<a rel="nofollow" target="_blank" href="http://www.facebook.com/sharer.php?u=<?php echo esc_url(get_the_permalink())?>">
-                                		<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/share_button.png" alt="Share" style="margin-left:2px" title="Share">
-                            		</a>
-                        	</div>
-						</div>
-					</div>
+					
 				</div>
 				<div id="colRightNewsBox" class="hidden-xs hidden-sm col-md-3 col-lg-3">
 					<?php get_search_form(true); ?>
@@ -93,8 +106,99 @@
 					<div class="banner_300x250">
 						<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/banner-300x250.jpg" alt="banner 300x250"/>
 					</div>
+                    <div class="block-related-news">
+            			<h2 class="title">
+            				<a target="_blank" href="#" title="Ảnh đoạt giải " >Bài viết liên quan</a>
+            			</h2>
+						<div class="feature-1">
+							<a target="_blank" class="thumbs img_80_45" title="Bếp xanh công nghệ - Lê Vấn" href="#">
+            					<img src="http://thitruong-img.tuoitre.vn/post/Bếp xanh công nghệ - Lê Vấn_14195663334139.jpg">
+            				</a>
+							<a target="_blank" title="Bếp xanh công nghệ - Lê Vấn" href="#">
+        					   Bếp xanh công nghệ - Lê Vấn
+                            </a>
+			             </div>	
+						<ul class="list-1">
+                            <li>
+            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Nỗi lo còn đó - Lê Minh Quát" href="#">Nỗi lo còn đó - Lê Minh Quát</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Hạn chế túi ni lông - Nguyễn Thứ Tính" href="#">Hạn chế túi ni lông - Nguyễn Thứ Tính</a>
+            				</li>
+                             <li>
+            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
+            				</li>
+						</ul>
+					</div>
+                    <div class="block-related-news">
+            			<h2 class="title">
+            				<a target="_blank" href="#" title="Ảnh đoạt giải " style="color: #74bc48;">Tin tức mới nhất</a>
+            			</h2>
+						<div class="feature-1">
+							<a target="_blank" class="thumbs img_80_45" title="Bếp xanh công nghệ - Lê Vấn" href="#">
+            					<img src="http://thitruong-img.tuoitre.vn/post/Bếp xanh công nghệ - Lê Vấn_14195663334139.jpg">
+            				</a>
+							<a target="_blank" title="Bếp xanh công nghệ - Lê Vấn" href="#">
+        					   Bếp xanh công nghệ - Lê Vấn
+                            </a>
+			             </div>	
+						<ul class="list-1">
+                            <li>
+            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Nỗi lo còn đó - Lê Minh Quát" href="#">Nỗi lo còn đó - Lê Minh Quát</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Hạn chế túi ni lông - Nguyễn Thứ Tính" href="#">Hạn chế túi ni lông - Nguyễn Thứ Tính</a>
+            				</li>
+                             <li>
+            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
+            				</li>
+						</ul>
+					</div>
 					<div class="banner_300x250">
 						<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/banner-300x250.jpg" alt="banner 300x250"/>
+					</div>
+                    <div class="block-related-news">
+            			<h2 class="title">
+            				<a target="_blank" href="#" title="Ảnh đoạt giải" style="color: #eb6f70;">Thời trang - làm đẹp</a>
+            			</h2>	
+						<ul class="list-1">
+                            <li>
+            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Nỗi lo còn đó - Lê Minh Quát" href="#">Nỗi lo còn đó - Lê Minh Quát</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Hạn chế túi ni lông - Nguyễn Thứ Tính" href="#">Hạn chế túi ni lông - Nguyễn Thứ Tính</a>
+            				</li>
+                             <li>
+            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
+            				</li>
+                            <li>
+            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
+            				</li>
+						</ul>
 					</div>
 				</div>
 				
