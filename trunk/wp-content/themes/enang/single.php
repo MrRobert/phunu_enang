@@ -21,7 +21,8 @@
 				</div>
 				<div id="colleftDetail" class=" col-md-9 col-lg-9">
                      <?php if (have_posts()) {  //echo getPostViews(get_the_ID());?>		
-                  			<?php while (have_posts()) : the_post();?>
+                  			<?php while (have_posts()) : the_post(); ?>
+                            <?php $category = get_the_category();   ?>
                                     <article class="newsCenter" id="post-733565">
                 						<div class="autNewsCt row">
                 							<div class="top-box-article"> 
@@ -84,14 +85,17 @@
     						</div>
                             <input type="hidden" id="post_id" name="post_id" value="<?php echo get_the_ID(); ?>"/>
     					</div>
-                        <ul class="block-key">
+                        <ul class="block-key"> <?php $posttags = get_the_tags();?>
     			             <li>Từ khóa</li>
-    						<li>
-    				            <a href="http://tuoitre.vn/chu-de/bao-hiem-y-te/7297.html">bảo hiểm y tế</a>
-    			             </li>
-    						<li>
-                				<a href="http://tuoitre.vn/chu-de/bao-hiem-xa-hoi/419781.html">bảo hiểm xã hội</a>
-                			</li>
+                             <?php if(!empty($posttags)){
+                                    foreach( $posttags as $tag){
+                             ?>
+                                        <li>
+                				            <a href="<?php echo get_tag_link($tag->term_id); ?>"><?php echo $tag->name; ?></a>
+                			             </li>
+                             <?php           
+                                    }
+                                }?>
     					</ul>
                           <?php get_template_part('comments'); ?>
                             <?php endwhile; ?>
@@ -108,68 +112,121 @@
 					</div>
                     <div class="block-related-news">
             			<h2 class="title">
-            				<a target="_blank" href="#" title="Ảnh đoạt giải " >Bài viết liên quan</a>
+            				<a target="_blank" href="<?php echo esc_url(get_category_link($category[0]->cat_ID))?>" title="<?php echo $category[0]->name;?>" >Bài viết liên quan</a>
             			</h2>
-						<div class="feature-1">
-							<a target="_blank" class="thumbs img_80_45" title="Bếp xanh công nghệ - Lê Vấn" href="#">
-            					<img src="http://thitruong-img.tuoitre.vn/post/Bếp xanh công nghệ - Lê Vấn_14195663334139.jpg">
-            				</a>
-							<a target="_blank" title="Bếp xanh công nghệ - Lê Vấn" href="#">
-        					   Bếp xanh công nghệ - Lê Vấn
-                            </a>
-			             </div>	
+                        <?php $postID_exclude = array();
+                             $args = array(
+                                'category_name'     => $category[0]->slug,
+                                'meta_key'           => 'post_views_count',
+                               	'posts_per_page'      => 1,
+                                'orderby'             =>  'meta_value_num',
+                                'order'               => 'DESC',  
+                                );
+                                        
+                                $the_query = new WP_Query($args);
+                                // The Loop
+                                if ( $the_query->have_posts() ) {
+                                	
+                                	while ( $the_query->have_posts() ) {
+                                		$the_query->the_post();
+                                        array_push($postID_exclude,get_the_ID());  
+                                        ?>
+                                        
+                                        <div class="feature-1">
+                							<a target="_blank" class="thumbs img_80_45" title="<?php the_title();?>" href="<?php esc_url(the_permalink())?>">
+                            					<img src="<?php echo get_bg_image(get_the_ID()); ?>">
+                            				</a>
+                							<a target="_blank" title="<?php the_title();?>" href="<?php esc_url(the_permalink())?>">
+                        					  <?php the_title();?>
+                                            </a>
+                			             </div>	
+                                        
+						      <?php  }} wp_reset_postdata(); ?>
+                             
 						<ul class="list-1">
-                            <li>
-            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Nỗi lo còn đó - Lê Minh Quát" href="#">Nỗi lo còn đó - Lê Minh Quát</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Hạn chế túi ni lông - Nguyễn Thứ Tính" href="#">Hạn chế túi ni lông - Nguyễn Thứ Tính</a>
-            				</li>
-                             <li>
-            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
-            				</li>
+                        
+                            <?php $postID_exclude = array();
+                             $args = array(
+                                'category_name'     => $category[0]->slug,
+                                'meta_key'           => 'post_views_count',
+                                'post__not_in'        =>$postID_exclude,
+                               	'posts_per_page'      => 5,
+                                'orderby'             =>  'meta_value_num',
+                                'order'               => 'DESC',  
+                                );
+                                        
+                                $the_query = new WP_Query($args);
+                                // The Loop
+                                if ( $the_query->have_posts() ) {
+                                	
+                                	while ( $the_query->have_posts() ) {
+                                		$the_query->the_post();  
+                                        ?>
+                                        <li>
+                        					<a target="_blank" title="<?php the_title();?>" href="<?php esc_url(the_permalink())?>"><?php the_title();?></a>
+                        				</li>
+                                        
+						      <?php  }} wp_reset_postdata(); ?>
+                           
 						</ul>
 					</div>
                     <div class="block-related-news">
             			<h2 class="title">
-            				<a target="_blank" href="#" title="Ảnh đoạt giải " style="color: #74bc48;">Tin tức mới nhất</a>
+            				<a target="_blank" href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/doc-bao" title="Tin tức mới nhất" style="color: #74bc48;">Tin tức mới nhất</a>
             			</h2>
-						<div class="feature-1">
-							<a target="_blank" class="thumbs img_80_45" title="Bếp xanh công nghệ - Lê Vấn" href="#">
-            					<img src="http://thitruong-img.tuoitre.vn/post/Bếp xanh công nghệ - Lê Vấn_14195663334139.jpg">
-            				</a>
-							<a target="_blank" title="Bếp xanh công nghệ - Lê Vấn" href="#">
-        					   Bếp xanh công nghệ - Lê Vấn
-                            </a>
-			             </div>	
+                        <?php $postID_exclude = array();
+                             $args = array(
+                                'category_name'     => 'doc-bao',
+                               	'posts_per_page'      => 1,
+                                'orderby'             =>  'date',
+                                'order'               => 'DESC', 
+                                );
+                                        
+                                $the_query = new WP_Query($args);
+                                // The Loop
+                                if ( $the_query->have_posts() ) {
+                                	
+                                	while ( $the_query->have_posts() ) {
+                                		$the_query->the_post();
+                                        array_push($postID_exclude,get_the_ID());  
+                                        ?>
+                                        <div class="feature-1">
+                							<a target="_blank" class="thumbs img_80_45" title="<?php the_title();?>" href="<?php esc_url(the_permalink())?>">
+                            					<img src="<?php echo get_bg_image(get_the_ID()); ?>">
+                            				</a>
+                							<a target="_blank" title="<?php the_title();?>" href="<?php esc_url(the_permalink())?>">
+                        					  <?php the_title();?>
+                                            </a>
+                			             </div>	
+                                        
+						      <?php  }} wp_reset_postdata(); ?>
+                        
+						
 						<ul class="list-1">
-                            <li>
-            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Nỗi lo còn đó - Lê Minh Quát" href="#">Nỗi lo còn đó - Lê Minh Quát</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Hạn chế túi ni lông - Nguyễn Thứ Tính" href="#">Hạn chế túi ni lông - Nguyễn Thứ Tính</a>
-            				</li>
-                             <li>
-            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
-            				</li>
+                        
+                            <?php 
+                             $args = array(
+                                'category_name'     => 'doc-bao',
+                                'post__not_in'        =>$postID_exclude,
+                               	'posts_per_page'      => 5,
+                                'orderby'             =>  'date',
+                                'order'               => 'DESC',
+                                );
+                                        
+                                $the_query = new WP_Query($args);
+                                // The Loop
+                                if ( $the_query->have_posts() ) {
+                                	
+                                	while ( $the_query->have_posts() ) {
+                                		$the_query->the_post();
+                                        array_push($postID_exclude,get_the_ID());  
+                                        ?>
+                                        <li>
+                        					<a target="_blank" title="<?php the_title();?>" href="<?php esc_url(the_permalink())?>"><?php the_title();?></a>
+                        				</li>	
+                                        
+						      <?php  }} wp_reset_postdata(); ?>
+                            
 						</ul>
 					</div>
 					<div class="banner_300x250">
@@ -177,61 +234,83 @@
 					</div>
                     <div class="block-related-news">
             			<h2 class="title">
-            				<a target="_blank" href="#" title="Ảnh đoạt giải" style="color: #eb6f70;">Thời trang - làm đẹp</a>
+            				<a target="_blank" href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/lam-dep" title="Thời trang - làm đẹp" style="color: #eb6f70;">Thời trang - làm đẹp</a>
             			</h2>	
 						<ul class="list-1">
-                            <li>
-            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Nỗi lo còn đó - Lê Minh Quát" href="#">Nỗi lo còn đó - Lê Minh Quát</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Hạn chế túi ni lông - Nguyễn Thứ Tính" href="#">Hạn chế túi ni lông - Nguyễn Thứ Tính</a>
-            				</li>
-                             <li>
-            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
-            				</li>
+                            <?php 
+                             $args = array(
+                                'category_name'     => 'lam-dep',
+                               	'posts_per_page'      => 6,
+                                'orderby'             =>  'date',
+                                'order'               => 'DESC',
+                                );
+                                        
+                                $the_query = new WP_Query($args);
+                                // The Loop
+                                if ( $the_query->have_posts() ) {
+                                	
+                                	while ( $the_query->have_posts() ) {
+                                		$the_query->the_post();
+                                        ?>
+                                        <li>
+                        					<a target="_blank" title="<?php the_title();?>" href="<?php esc_url(the_permalink())?>"><?php the_title();?></a>
+                        				</li>	
+                                        
+						      <?php  }} wp_reset_postdata(); ?>
+                        
 						</ul>
 					</div>
 				</div>
 				 <div class="block-related-news">
             			<h2 class="title">
-            				<a target="_blank" href="#" title="Ảnh đoạt giải" style="color: #ff8400;">Giải trí - thư giãn</a>
+            				<a target="_blank" href="<?php echo esc_url( home_url( '/' ) ); ?>chuyen-muc/me-va-be" title="Mẹ và bé" style="color: #ff8400;">Mẹ và bé</a>
             			</h2>
-                        <div class="feature-1">
-							<a target="_blank" class="thumbs img_80_45" title="Bếp xanh công nghệ - Lê Vấn" href="#">
-            					<img src="http://thitruong-img.tuoitre.vn/post/Bếp xanh công nghệ - Lê Vấn_14195663334139.jpg">
-            				</a>
-							<a target="_blank" title="Bếp xanh công nghệ - Lê Vấn" href="#">
-        					   Bếp xanh công nghệ - Lê Vấn
-                            </a>
-			             </div>		
+                        <?php $postID_exclude = array();
+                             $args = array(
+                                'category_name'     => 'me-va-be',
+                               	'posts_per_page'      => 1,
+                                );
+                                        
+                                $the_query = new WP_Query($args);
+                                // The Loop
+                                if ( $the_query->have_posts() ) {
+                                	
+                                	while ( $the_query->have_posts() ) {
+                                		$the_query->the_post();
+                                        array_push($postID_exclude,get_the_ID());  
+                                        ?>
+                                        <div class="feature-1">
+                							<a target="_blank" class="thumbs img_80_45" title="<?php the_title();?>" href="<?php esc_url(the_permalink())?>">
+                            					<img src="<?php echo get_bg_image(get_the_ID()); ?>">
+                            				</a>
+                							<a target="_blank" title="<?php the_title();?>" href="<?php esc_url(the_permalink())?>">
+                        					  <?php the_title();?>
+                                            </a>
+                			             </div>	
+                                        
+						      <?php  }} wp_reset_postdata(); ?>
+                        	
 						<ul class="list-1">
-                            <li>
-            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Nỗi lo còn đó - Lê Minh Quát" href="#">Nỗi lo còn đó - Lê Minh Quát</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Hạn chế túi ni lông - Nguyễn Thứ Tính" href="#">Hạn chế túi ni lông - Nguyễn Thứ Tính</a>
-            				</li>
-                             <li>
-            					<a target="_blank" title="Vũ điệu của biển - Nguyễn Tấn Khâm" href="#">Vũ điệu của biển - Nguyễn Tấn Khâm</a>
-            				</li>
-                            <li>
-            					<a target="_blank" title="Cạm bẫy - Phạm Văn Thành" href="#">Cạm bẫy - Phạm Văn Thành</a>
-            				</li>
+                            <?php 
+                             $args = array(
+                                'category_name'     => 'me-va-be',
+                                'post__not_in'        =>$postID_exclude,
+                               	'posts_per_page'      => 6,
+                                );
+                                        
+                                $the_query = new WP_Query($args);
+                                // The Loop
+                                if ( $the_query->have_posts() ) {
+                                	
+                                	while ( $the_query->have_posts() ) {
+                                		$the_query->the_post();
+                                        ?>
+                                        <li>
+                        					<a target="_blank" title="<?php the_title();?>" href="<?php esc_url(the_permalink())?>"><?php the_title();?></a>
+                        				</li>	
+                                        
+						      <?php  }} wp_reset_postdata(); ?>
+                            
 						</ul>
 					</div>
 				</div>

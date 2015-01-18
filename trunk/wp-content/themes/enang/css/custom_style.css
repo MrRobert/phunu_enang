@@ -1089,7 +1089,6 @@ ul.baiviet-list li {
 .block-related-news .list-1 li {
     padding: 5px 0;
     background-position: 0 10px;
-    border-top: dotted 1px #ccc;
     position: relative;
     display: block;
     height: 30px;
@@ -1103,7 +1102,9 @@ ul.baiviet-list li {
     padding: 5px 0px 5px 9px;
     background: url(../images/dotted.png) 0 11px no-repeat;
     float: left;
+    border-bottom: dotted 1px #ccc;
     display: block;
+    
 }
 /*comments css*/
 .block-key {
@@ -1293,6 +1294,119 @@ html>body .Wrapper {
 }
 .like_number {
     font-size: 11px;
+}
+.cmt_wrapPopup {
+    height: auto;
+    width: 100%;
+    left: 0;
+    min-height: 100%;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 99999;
+    background: url(../images/overlay.png) repeat;
+    display: none;
+}
+.cmt_wrapPopup .cmt_popup {
+    -webkit-box-shadow: 0 2px 26px rgba(0, 0, 0, .3), 0 0 0 1px rgba(0, 0, 0, .1);
+    position: absolute;
+    width: 500px;
+    min-height: 100px;
+    background-color: #fff;
+    top: 50%;
+    left: 50%;
+    margin-left: -250px;
+    z-index: 99999;
+}
+.cmt_centerPopup section header {
+    min-height: 12px;
+    position: relative;
+    background-color: #f5f6f7;
+    height: auto;
+    overflow: hidden;
+    clear: both;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 10px 12px;
+    text-shadow: 0 1px 0 #fff;
+    -webkit-border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+}
+.cmt_centerPopup section header h1 {
+    float: left;
+    font-size: 14px;
+    color: #4e5665;
+    font-weight: bold;
+    margin: 5px 0;
+}
+a.cmt_closepp {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 10px;
+    background: url(../images/controls.png) no-repeat 0px -172px;
+    width: 15px;
+    height: 15px;
+}
+.cmt_centerPopup section .cmt_content {
+    padding: 10px 15px;
+}
+.cmt_popup .cmt_content {
+    width: auto;
+    float: none;
+}
+.cmt_popup .cmt_frm-1 {
+    margin-left: 1px;
+}
+.cmt_frm-1 ul {
+    padding: 15px 0;
+}
+.cmt_frm-1 ul li {
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+.cmt_frm-1 ul li label {
+    float: left;
+    width: 125px;
+    text-align: left;
+    height: 28px;
+    line-height: 28px;
+}
+.cmt_txt-1 {
+    width: 321px;
+    height: 28px;
+    border: solid 1px #ccc;
+    line-height: 28px;
+    padding: 0 10px;
+    float: left;
+    color: #333;
+}
+.cmt_centerPopup section .cmt_content .cmt_frm-1 ul li p {
+    font-weight: normal;
+}
+.cmt_centerPopup section .cmt_content .cmt_frm-1 ul li p {
+    font-weight: normal;
+}
+.cmt_warning {
+    font-size: 12px;
+    color: #e32c22 !important;
+    padding-top: 5px;
+    clear: both;
+    display: none;
+}
+.cmt_frm-1 .cmt_btn-3 {
+    margin-left: 125px;
+    border: none;
+}
+.cmt_btn-3 {
+    padding: 0 15px;
+    line-height: 30px;
+    height: 30px;
+    background: #e32c22;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
 }
 
 
