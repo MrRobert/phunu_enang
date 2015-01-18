@@ -17,10 +17,10 @@
 						<div class="txt-cmt">
 							<div class="Wrapper">
 								<h3><span>Bình Luận (4)</span></h3>
-								<textarea placeholder="Vui lòng nhập tiếng Việt có dấu" cols="1" rows="1" class="txt-content"></textarea>
+								<textarea placeholder="Vui lòng nhập tiếng Việt có dấu" cols="1" rows="1" class="cot_txt_content"></textarea>
 							</div>
 							<div class="Wrapper">
-								<p class="warning">Vui lòng nhập nội dung bình luận.</p><a class="button" href="javascript:;" onclick="openCommentPopup('infoForm', 700035)">Gửi</a>
+								<p class="warning">Vui lòng nhập nội dung bình luận.</p><a class="button" onclick="openCommentPopup()">Gửi</a>
 							</div>
 						</div>
 					</div>
@@ -137,4 +137,54 @@
 			     </div><!-- end comment_thread -->
 		      </div><!-- block-comment -->
 	       </div>
-        </div>
+</div>
+<div class="cmt_wrapPopup" id="infoForm" >
+		<div class="cmt_popup" style="margin-top: -120px;">
+			<div class="cmt_centerPopup"> 
+				<section>
+					<header>
+						<h1>Thông tin bạn đọc</h1>
+						<a href="javascript:void(0);" title="Đóng" class="cmt_closepp" onclick="closePopup()"></a>
+					</header>
+					<div class="cmt_content">
+						<form method="POST" class="cmt_frm-1" id="frm-comment" action="#">
+							<ul>
+								<li>
+									<label for="cm-email">Email (*)</label><input type="text" id="cm-email" name="cm-email" class="cmt_txt-1">
+									<p class="cmt_warning email-warning1">Vui lòng nhập email.</p>
+									<p class="cmt_warning email-warning2">Email không đúng định dạng.</p>
+								</li>
+								<li>
+									<label for="cm-name">Họ &amp; tên (*)</label><input type="text" id="cm-name" name="cm-name" class="cmt_txt-1">
+									<p class="cmt_warning name-warning">Vui lòng nhập Họ &amp; Tên.</p>
+								</li>
+								<li><p>Phần có gắn (*) là thông tin bắt buộc nhập.</p></li>
+								<li><input type="button" id="btn-info" value="Gửi" name="btn-info" class="cmt_btn-3"></li>
+								<input type="hidden" id="cm-content" name="cm-content" value="">
+								<input type="hidden" id="cm-otitle" name="cm-otitle" value="">
+								<input type="hidden" id="cm-cid" name="cm-cid" value="">
+							</ul>
+						</form>
+					</div>
+				</section>
+			</div>
+		</div>
+</div>
+<script>
+    function openCommentPopup(){
+       var txt_content = $('.cot_txt_content').val();
+       if(txt_content == '')
+       {
+           $('.warning').show();
+           return false;
+        
+       }
+       else{
+        $('#cm-content').val(txt_content);
+        $('#infoForm').show(600);
+       }
+    }
+    function closePopup(){
+        $('#infoForm').hide(600);
+    }
+</script>
