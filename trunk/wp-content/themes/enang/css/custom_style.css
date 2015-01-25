@@ -221,6 +221,28 @@ a:hover {
 	padding-right: 0;
 	padding-left: 0;
 }
+.sclTopNews{
+    width: 45px;
+    height: 45px;
+    border-radius: 4px;
+    background: #f0f0f0 url(../images/btn-top.png) 16px 18px no-repeat;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    display: none;
+    overflow: hidden;
+    text-indent: -9999px;
+    -webkit-transition: all .2s ease-in;
+    -moz-transition: all .2s ease-in;
+    -ms-transition: all .2s ease-in;
+    -o-transition: all .2s ease-in;
+    transition: all .2s ease-in;
+    display: none;
+}
+.sclTopNews:hover {
+    background: #e32c24 url(../images/btn-top.png) 16px -13px no-repeat;
+}
+
 @media(min-width: 1200px){
 	#centerNews{
 		background: #fff;

@@ -367,7 +367,7 @@
 				</div><!-- end containerNews-->
 			</div><!-- end containerTopRow-->
 		</div><!-- end mainNews-->
-		
+		<span class="sclTopNews hidden-xs" ></span>
    </div><!-- end main-->
    
     <!--script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script-->
