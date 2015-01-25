@@ -42,7 +42,7 @@ function get_cate_name($postID){
         case 'nha-cua':
             $result = '<div class=" hidden-xs slide_cat_name slide_nha_cua">'.$category[0]->name.'</div>';
             break;
-        case 'thu-gian':
+        case 'giai-tri':
             $result = '<div class=" hidden-xs slide_cat_name slide_thu_gian">'.$category[0]->name.'</div>';
             break;
         default:
@@ -74,7 +74,7 @@ function get_cate_name_re($postID){
         case 'nha-cua':
             $result = '<p class="other-cat-name slide_nha_cua">'.$category[0]->name.'</p>';
             break;
-        case 'thu-gian':
+        case 'giai-tri':
             $result = '<p class="other-cat-name slide_thu_gian">'.$category[0]->name.'</p>';
             break;
         default:
@@ -260,13 +260,28 @@ function dvd_enqueue_script(){
 //register ajax action for category page
 add_action('wp_ajax_get_cate_new_posts', 'get_cate_new_posts');
 add_action('wp_ajax_nopriv_get_cate_new_posts', 'get_cate_new_posts');
+
 //register ajax action for home page
 add_action('wp_ajax_home_get_cate_new_posts', 'home_get_cate_new_posts');
 add_action('wp_ajax_nopriv_home_get_cate_new_posts', 'home_get_cate_new_posts');
 
-//register ajax action for single page
+//register ajax love count action for single page
 add_action('wp_ajax_set_post_love', 'set_post_love');
 add_action('wp_ajax_nopriv_set_post_love', 'set_post_love');
+
+//register ajax share count action for single page
+add_action('wp_ajax_set_post_share', 'set_post_share');
+add_action('wp_ajax_nopriv_set_post_share', 'set_post_share');
+
+//register ajax action for process comment
+add_action('wp_ajax_comment_process', 'comment_process');
+add_action('wp_ajax_nopriv_comment_process', 'comment_process');
+
+//register ajax action for comment like
+add_action('wp_ajax_set_comment_like', 'set_comment_like');
+add_action('wp_ajax_nopriv_set_comment_like', 'set_comment_like');
+add_action('wp_ajax_down_comment_like', 'down_comment_like');
+add_action('wp_ajax_nopriv_down_comment_like', 'down_comment_like');
 
 //get new post of each category by ajax
 function get_cate_new_posts(){
@@ -384,6 +399,7 @@ function home_get_cate_new_posts()
 }
 //print article
 function print_post($para_print_post, $cate_slug){
+    $approveCom = wp_count_comments($para_print_post['id']);
     
     $output .= '<article class="newsCenter" id="post-'.$para_print_post['id'].'" style="border-top: 2px solid '.get_color($cate_slug).';">';
     $output .=     '<div class="autNewsCt row">';
@@ -399,19 +415,19 @@ function print_post($para_print_post, $cate_slug){
     $output .=                      '<li>';
     $output .=                          '<span title="Cảm ơn"><i class="fa fa-heart"></i></span>';
     $output .=                          '<br/>';
-    $output .=                          '<span class="value-btn">1</span>';
+    $output .=                          '<span class="value-btn">'.getPostLoves($para_print_post['id']).'</span>';
     $output .=                      '</li>';
     $output .=                      '<li>';
     $output .=                          '<a title="Chia sẻ" class="btn-shareface" data-gtmname="chia-se" rel="nofollow" target="_blank" href="#">';
     $output .=                              '<span><i class="fa fa-share-alt"></i></span>';
     $output .=                              '<br/>';
-    $output .=                              '<span class="value-btn">29</span>';
+    $output .=                              '<span class="value-btn">'.get_post_shares($para_print_post['id']).'</span>';
     $output .=                          '</a>';
     $output .=                      '</li>';
     $output .=                      '<li>';
     $output .=                          '<span title="Bình luận" ><i class="fa fa-comments"></i></span>';
     $output .=                          '<br/>';
-    $output .=                          '<span class="value-btn">0</span>';
+    $output .=                          '<span class="value-btn">'.$approveCom->approved.'</span>';
     $output .=                      '</li>';
     $output .=                  '</ul>';
     $output .=              '</div>';
@@ -488,30 +504,138 @@ function set_post_love() {
     }
      
     die();
-}												 
-													 
-function disqus_embed($disqus_shortname) {
-    global $post;
-    wp_enqueue_script('disqus_embed','http://'.$disqus_shortname.'.disqus.com/embed.js');
-    echo '<div id="disqus_thread"></div>
-    <script type="text/javascript">
-        var disqus_shortname = "'.$disqus_shortname.'";
-        var disqus_title = "'.$post->post_title.'";
-        var disqus_url = "'.get_permalink($post->ID).'";
-        var disqus_identifier = "'.$disqus_shortname.'-'.$post->ID.'";
-    </script>';
+}	
+
+function getPostLoves($postID){
+    $count_key = 'post_love_count';
+    $count = get_post_meta($postID, $count_key, true);
+    if($count==''){
+        delete_post_meta($postID, $count_key);
+        add_post_meta($postID, $count_key, '0');
+        return 0;
+    }
+    return $count;
 }
- 
-add_action('wp_head', 'disqus_embed');
- 
-function disqus_count($disqus_shortname)
+
+function set_post_share() {
+    if(isset($_POST['post_id']))
+    {
+        $postID = $_POST['post_id'];
+        $count_key = 'post_share_count';
+        $count = get_post_meta($postID, $count_key, true);
+        if($count==''){
+            $count = 0;
+            delete_post_meta($postID, $count_key);
+            add_post_meta($postID, $count_key, '0');
+        }else{
+            $count++;
+            update_post_meta($postID, $count_key, $count);
+        }
+        echo 'success';
+    }
+    else
+    {
+        echo "fail";
+    }
+     
+    die();
+}	
+
+function get_post_shares($postID){
+    $count_key = 'post_share_count';
+    $count = get_post_meta($postID, $count_key, true);
+    if($count==''){
+        delete_post_meta($postID, $count_key);
+        add_post_meta($postID, $count_key, '0');
+        return 0;
+    }
+    return $count;
+}
+											 
+//function process insert comment													 
+function comment_process()
 {
-    global $post;
-    wp_enqueue_script('disqus_count', 'http://' . $disqus_shortname . '.disqus.com/count.js');
-    echo '<a class="num_comments_link" href="' . get_permalink() . '#disqus_thread" data-disqus-identifier="' . $disqus_shortname . '-' . $post->ID . '"></a>';
+    $comment_author       = ( isset($_POST['cmt_name']) )  ? trim(strip_tags($_POST['cmt_name'])) : 'no value';
+    $comment_author_email = ( isset($_POST['cmt-email']) )   ? trim($_POST['cmt_email']) : null;
+    $comment_content      = ( isset($_POST['cmt_content']) ) ? trim($_POST['cmt_content']) : null;
+    $comment_post_ID      = isset($_POST['post_id']) ? (int) $_POST['post_id'] : 0;
+    $comment_parent = isset($_POST['comment_parent']) ? absint($_POST['comment_parent']) : 0;
+    $comment_author_url   = ( isset($_POST['url']) )     ? trim($_POST['url']) : null;
+    $comment_type = '';
+    
+    
+   $commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
+
+    $comment_id = wp_new_comment( $commentdata );
+    
+    if ( ! $comment_id ) {
+    	echo "Có lỗi xảy ra, vui lòng thử lại";
+    }
+    else{
+        echo "Ý kiến của bạn đã được ghi nhận thành công!";
+    }
+   
+   die();
+    
 }														
 													  
-												
+function set_comment_like() {
+    if(isset($_POST['comment_id']))
+    {
+        $commentID = $_POST['comment_id'];
+        $count_key = 'comment_like';
+        $count = get_comment_meta($commentID, $count_key, true);
+        if($count==''){
+            $count = 0;
+            delete_comment_meta($commentID, $count_key);
+            add_comment_meta($commentID, $count_key, '0');
+        }else{
+            $count++;
+            update_comment_meta($commentID, $count_key, $count);
+        }
+        echo 'success';
+    }
+    else
+    {
+        echo "fail";
+    }
+     
+    die();
+}	
+
+function down_comment_like() {
+    if(isset($_POST['comment_id']))
+    {
+        $commentID = $_POST['comment_id'];
+        $count_key = 'comment_like';
+        $count = get_comment_meta($commentID, $count_key, true);
+        if($count >0){
+            $count--;
+            update_comment_meta($commentID, $count_key, $count);
+        }else{
+            echo "fail";
+        }
+        echo 'success';
+    }
+    else
+    {
+        echo "fail";
+    }
+     
+    die();
+}
+
+function get_comment_like($commentID){
+    $count_key = 'comment_like';
+    $count = get_comment_meta($commentID, $count_key, true);
+    if($count==''){
+        delete_comment_meta($commentID, $count_key);
+        add_comment_meta($commentID, $count_key, '0');
+        return 0;
+    }
+    return $count;
+}												
+
 												 
 												
 													
