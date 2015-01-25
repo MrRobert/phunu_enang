@@ -33,6 +33,7 @@
                             <?php $i = 0;
                                 $postID_exclude = array(); 
                                     $args = array(
+                                        'category__not_in'         => 10,
                                         'meta_key'     => 'post_views_count',
                                         array(
                                 			'hour'      => 72,
@@ -71,6 +72,7 @@
 						<ul class="other-post">
                             <?php 
                                      $args = array(
+                                        'category__not_in'         => 10,
                                         'meta_key'     => 'post_views_count',
                                         array(
                                 			'hour'      => 72,
@@ -111,9 +113,8 @@
 						<ul>
                             <?php   $i = 0;
                                     $args = array(
-                                        'cat'                 =>'-10',
+                                        'category__not_in'         => 10,
                                     	'posts_per_page'      => 6,
-                                        
                                         'post__not_in'        =>$postID_exclude
                                         );
                                         
@@ -188,15 +189,27 @@
 							<h2 class="title-h2">Chào buổi sáng</h2>
 							<div class="news-list">
 								<ul>
-									<li> 
-										<a href="#"> Bật mí bí duyết dưỡng da mùa lễ hội cho quý cô trang điểm nhiều </a> 
-									</li>
-									<li> <a href="#"> Soi tủ đồ “hàng hiệu” bình dân của hoàng tử bé nước Anh</a> </li>
-									<li> <a href="#"> Tính cách nào, chọn nước hoa nấy</a> </li>
-									<li> <a href="#"> Tạo 8 kiểu đầy cảm hứng với tóc bob dài</a> </li>
-									<li> <a href="#"> Mực xào ngũ sắc ngọt giòn cho bữa tối</a> </li>
-									<li> <a href="#"> Cách làm bánh mỳ xoắn ốc thật thơm ngon, xốp mềm</a> </li>
-																	
+                                    <?php  $args = array(
+                                        'category_name' => 'chao-buoi-sang',
+                                    	'posts_per_page'      => 9,
+                                        'post__not_in'        =>$postID_exclude,
+                                        'orderby'             =>  'date',
+                                        'order'               => 'DESC',  
+                                     );
+                                        
+                                $the_query = new WP_Query($args);
+                                // The Loop
+                                if ( $the_query->have_posts() ) {
+                                	
+                                	while ( $the_query->have_posts() ) {
+                                		$the_query->the_post();
+                                        ?>
+                                        <li> 
+    										<a href="<?php esc_url(the_permalink())?>"> <?php the_title();?> </a> 
+    									</li>
+                                       
+						      <?php  }} wp_reset_postdata(); ?>
+                                								
 								</ul>
 							</div>
 						</div>
@@ -309,61 +322,40 @@
 								<h2 class="title-h2">Bài viết được yêu thích</h2>
 								<div class="baivietyeuthich">
 									<ul class="baiviet-list">
-										<li> 
-											<a href="#">
-												<div class="avatar-img"> 
-													<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/most_view_img1.jpg" alt="2062727">
-												</div>
-												<div class="right-list-baiviet">
-													<div class="content-baiviet"> Công dụng dầu gấc trong làm đẹp và cách làm nhé</div>
-												
-												</div> 
-											</a>
-										</li>
-										<li> 
-											<a href="#">
-												<div class="avatar-img"> 
-													<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/most_view_img2.jpg" alt="2062727"/>
-												</div>
-												<div class="right-list-baiviet">
-													<div class="content-baiviet"> Tại sao Đường Tăng vô dụng lại trở thành người lãnh đạo, còn</div>
-												
-												</div> 
-											</a>
-										</li>
-										<li> 
-											<a href="#">
-												<div class="avatar-img"> 
-													<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/most_view_img3.jpg" alt="2062727">
-												</div>
-												<div class="right-list-baiviet">
-													<div class="content-baiviet"> Công thức lẩu Thái chua cay đây</div>
-													
-												</div>
-											</a>
-										</li>
-										<li> 
-											<a href="#">
-												<div class="avatar-img"> 
-													<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/most_view_img4.jpg" alt="2062727"/>
-												</div>
-												<div class="right-list-baiviet">
-													<div class="content-baiviet"> Nhận biết 6 kiểu khóc của con để có cách "đối phó"</div>
-													
-												</div>
-											</a>
-										</li>
-										<li> 
-											<a href="#">
-												<div class="avatar-img"> 
-													<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/most_view_img5.jpg" alt="2062727">
-												</div>
-												<div class="right-list-baiviet">
-													<div class="content-baiviet"> Tâm thư của một phụ nữ lấy chồng để chạy trốn tuổi 27</div>
-												
-												</div> 
-											</a>
-										</li>
+                                        <?php 
+                                            $args = array(
+                                                'meta_key'     => 'post_love_count',
+                                                array(
+                                        			'hour'      => 72,
+                                        			'compare'   => '<=',
+                                        		),
+                                            	'posts_per_page'      => 6,
+                                                'orderby'             =>  'meta_value_num',
+                                                'order'               => 'DESC',  
+                                             );
+                                        
+                                            $the_query = new WP_Query($args);
+                                            // The Loop
+                                            if ( $the_query->have_posts() ) {
+                                            	
+                                            	while ( $the_query->have_posts() ) {
+                                            		$the_query->the_post();
+                                                    ?>
+                                                    <li> 
+            											<a href="<?php esc_url(the_permalink())?>">
+            												<div class="avatar-img"> 
+            													<img src="<?php echo get_bg_image(get_the_ID()); ?>" alt="<?php the_title();?>">
+            												</div>
+            												<div class="right-list-baiviet">
+            													<div class="content-baiviet"><?php the_title();?></div>
+            												
+            												</div> 
+            											</a>
+            										</li>
+                                                    
+                                                    
+            						      <?php }} wp_reset_postdata(); ?>
+                                    
 									</ul>
 								</div>
 								<div id="div-gpt-ad-1373285386337-0">

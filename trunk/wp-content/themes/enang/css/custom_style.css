@@ -74,13 +74,16 @@ a:hover {
 	width: 70px;
 	color: #f6c500;
 }
+.navcontain ul .show a {
+	width: 70px;
+	color: #f34764;
+}
 .navcontain ul .smartphone a {
 	width: 110px;
 	color: #3b5c7d;
 }
 .navcontain ul a {
 	display: block;
-	position: relative;
 	margin: 0 0 0 30px;
 	padding: 23px 0px 12px 4px;
 	font-size: 13px;
@@ -123,6 +126,9 @@ a:hover {
 .navcontain ul .event a .nav_point {
 	background: #f6c500;
 }
+.navcontain ul .show a .nav_point {
+	background: #f34764;
+}
 .navcontain ul .smartphone a .nav_point {
 	background: #3b5c7d;
 }
@@ -150,7 +156,37 @@ a:hover {
 	transition: 0.3s ease;
 	behavior: url("js/PIE.htc");
 }
-
+.navcontain ul li .lstEnt{
+    width: 185px;
+    background: #f9f9f9;
+    position: absolute;
+    top: 44px;
+    left: 17px;
+    z-index: 22;
+    display: none;
+}
+.navcontain ul li .lstEnt ul{
+    width: 100%;
+    padding-top: 10px;
+}
+.navcontain ul li .lstEnt ul li{
+    padding: 5px 10px;
+    border-bottom: 1px dotted #E5E5E5;
+}
+.navcontain ul li .lstEnt ul li a{
+    width: 100%;
+    padding: 5px 10px 5px 10px!important;
+    margin: 0 !important;
+    font-family: arial !important;
+    font-size: 14px !important;
+    text-align: left;
+    font-weight: bold !important;
+    color: #736969;
+    text-transform: none;
+}
+.navcontain ul li:hover >.lstEnt{
+    display: block;
+}
 .navcontain ul  a:hover >.nav_point, .navMainCt ul  .sa_div:hover >.nav_point{
 	width: 14px;
 	height: 14px;
@@ -761,7 +797,7 @@ a.link-post-content:hover p {
 }
 .title-h2 {
 	height: 40px;
-	background-color: #bdc3c7;
+	background-color: #768FC5;
 	font-family: 'Roboto';
 	font-size: 14px;
 	font-weight: bold;
@@ -778,7 +814,7 @@ a.link-post-content:hover p {
     cursor: pointer;
 }
 .search .title-h2{
-	background-color: #C2BCBC;
+	background-color: #fff;
 	text-align: left;
 	padding: 0 10px;
 	font-weight: normal;
@@ -934,7 +970,7 @@ ul.baiviet-list li {
 }
 
 .footer{
-	margin-top: 30px;
+	margin-top: 100px;
 	padding-top: 30px;
 	border-top: 1px dotted #ccc;
 }

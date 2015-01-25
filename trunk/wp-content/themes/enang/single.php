@@ -69,7 +69,7 @@
     						<p class="like_button">
     							<span class="btn-qt">
     								<a href="javascript:;" title="quan tâm" class="tto_object_like_btn">quan tâm</a>
-    								<span class="sl"><span></span>2</span>
+    								<span class="sl"><span></span><?php echo getPostLoves(get_the_ID()); ?></span>
     							</span>
     						</p>
     						<div class="like_share" style="width: 100%;float: left; margin-bottom: 55px; border: 1px solid #ddd;padding: 5px;">
@@ -78,7 +78,7 @@
                             	</div>
                             	<div class="share" style="text-align:right; width:100%;"> 
                                 		<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/share_ngay.png" style="margin-bottom: 15px">
-                                		<a rel="nofollow" target="_blank" href="http://www.facebook.com/sharer.php?u=<?php echo esc_url(get_the_permalink())?>">
+                                		<a rel="nofollow" target="_blank" href="http://www.facebook.com/sharer.php?u=<?php echo esc_url(get_the_permalink())?>" id="share-btn">
                                     		<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/share_button.png" alt="Share" style="margin-left:2px" title="Share">
                                 		</a>
                             	</div>
