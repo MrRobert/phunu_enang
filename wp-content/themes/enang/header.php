@@ -18,7 +18,7 @@
     
     <?php wp_head(); ?>
     <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap.js"></script>
-    
+    <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/main.js"></script>
     <!--script>
 		 $(function(){
 			var length = $('.navMainCt').offset().top + $('.navMainCt').height();
